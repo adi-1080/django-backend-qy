@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
+import SuperChartsInnerPage from './Pages/SuperChartsInnerPage';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
         {/* Define your routes here */}
         <Route path="/" element={<div>Welcome to the App</div>} />
         <Route path="/home" element={<Home />} />
+        <Route path="/innerChart" element={<SuperChartsInnerPage/>} />
       </Routes>
     </div>
   );
