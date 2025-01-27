@@ -1,10 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { TrendingUp, ChevronUp } from 'lucide-react';
 import StockChart from './charts/CandeStickStockChart';
 
 function IndividualCompanyMap() {
+  const [time, setTime] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
   const periods = ['1D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'];
+  useEffect(() => {
+    // Function to format time as HH:MM:SS UTC
+    const updateTime = () => {
+      const now = new Date();
+      const hours = String(now.getUTCHours()).padStart(2, '0');
+      const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+      const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+      setTime(`${hours}:${minutes}:${seconds} UTC`);
+    };
+
+    // Update the time every second
+    updateTime(); // Update immediately on mount
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
 
   return (
     <section className="h-full bg-white rounded-md border border-gray-200 flex flex-col relative">
@@ -82,6 +99,7 @@ function IndividualCompanyMap() {
               {period}
             </button>
           ))}
+          <div>{time}</div>
         </nav>
     </section>
   );
