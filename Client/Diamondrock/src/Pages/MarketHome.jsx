@@ -8,7 +8,7 @@ import { TrendingNow } from "../sections/TrendingNow";
 import { TrendingStocks } from "../sections/TrendingStocks";
 import { MarketEvents } from "../sections/MarketEvents";
 import { Deals } from "../sections/Deals";
-
+import { NewsAndUpdates } from "../sections/NewsAndUpdates";
 
 function MarketHome() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
@@ -58,7 +58,9 @@ function MarketHome() {
               </div>
             </div>
             
-
+            <div className="p-4 mb-4 border-spacing-2 shadow-xl rounded-lg">
+              <NewsAndUpdates />
+            </div>
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="col-span-1 border-spacing-2 shadow-xl rounded-lg">
                 <MarketEvents />
