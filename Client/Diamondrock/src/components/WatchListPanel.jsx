@@ -35,11 +35,11 @@
     const [selectedSymbol, setSelectedSymbol] = useState('BANKNIFTY');
 
     return (
-        <div className="w-80 bg-white border-l border-gray-200 h-screen flex flex-col">
+        <div className="w-80 bg-white border-l border-gray-200 flex flex-col rounded-tl" style={{ height: '100%' }}>
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-2">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
+            <h2 className="text-md font-semibold flex items-center gap-2">
                 Watchlist <ChevronDown className="w-4 h-4" />
             </h2>
             <div className="flex items-center gap-2">
@@ -63,7 +63,7 @@
         </div>
 
         {/* Watchlist Content */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto scroll-custom">
             {/* Selected Symbol Info */}
             
 
@@ -147,8 +147,8 @@
         </div>
 
         {/* Performance Section */}
-        <div className="border-t border-gray-200">
-            <button
+        <div className={`border-t border-gray-200 ${showSeasonals ? "max-h-96" : "h-12"} overflow-y-auto transition-all duration-300 scroll-custom`}>
+            <div
             onClick={() => setShowSeasonals(!showSeasonals)}
             className="w-full px-4 py-2 flex items-center justify-between bg-gray-50 hover:bg-gray-100"
             >
@@ -162,7 +162,7 @@
                 </button>
                 {showSeasonals ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </div>
-            </button>
+            </div>
             <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">

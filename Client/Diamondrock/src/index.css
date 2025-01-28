@@ -5,3 +5,22 @@
 .body {
     background-color: #e2f6f6;
 }
+
+/* Custom Scrollbar for Stocks and Performance Sections */ 
+  .scroll-custom::-webkit-scrollbar {
+    width: 4px !important; /* Width of the scrollbar */
+  }
+  
+  .scroll-custom::-webkit-scrollbar-track {
+    background: transparent; /* Background of the scrollbar track */
+  }
+  
+  .scroll-custom::-webkit-scrollbar-thumb {
+    background: #d1d5db; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded edges for thumb */
+  }
+  
+  .scroll-custom::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af; /* Darker color on hover */
+  }
+  

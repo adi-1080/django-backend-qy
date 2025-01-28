@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SeasonalChart = ({ width = 300, height = 100 }) => {
+const SeasonalChart = ({ width = 250, height = 100 }) => {
   // Sample data for different years
   const yearlyData = {
     2025: [

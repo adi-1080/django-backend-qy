@@ -32,7 +32,7 @@ function IndividualCompanyMap() {
             {/* Company Info */}
             <div className="flex items-center gap-2">
               <TrendingUp className="h-6 w-6 text-blue-600" />
-              <h1 className="text-lg font-bold">
+              <h1 className="text-md font-bold">
                 RELIANCE INDUSTRIES LTD • 1M • NSE
               </h1>
             </div>
@@ -86,11 +86,11 @@ function IndividualCompanyMap() {
           className="flex justify-between text-sm p-2 border-t border-gray-200"
           aria-label="Chart time periods"
         >
-          <div className="flex gap-3">
+          <div className="flex">
             {periods.map((period) => (
               <button
                 key={period}
-                className={`px-3 py-1 rounded transition-colors ${
+                className={`px-2 py-1 rounded transition-colors ${
                   selectedPeriod === period
                     ? 'bg-blue-100 text-blue-600'
                     : 'hover:bg-gray-100'
