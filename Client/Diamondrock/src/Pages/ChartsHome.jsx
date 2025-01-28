@@ -1,6 +1,7 @@
 import { Navbar2 } from '../components/trading/Navbar2';
 import { ChevronRight, ChevronLeft, LineChart, LayoutGrid, Code } from "lucide-react";
 import { useRef } from 'react';
+import CountrySelector from '../components/CountrySelector';
 
 const ChartsHome = () => {
   const scrollRef = useRef(null);
@@ -31,11 +32,28 @@ const ChartsHome = () => {
     { id: "40", name: "PX1", desc: "CAC 40 Index", value: "7,864.10", currency: "EUR", change: "-0.80%", color: "bg-green-500" },
   ];
 
+  const highVol = [
+    { name: "NVIDIA Corporation", ticker: "NVDA", price: "127.11", change: "-10.88%", color: "text-red-500" },
+    { name: "Meta Platforms, Inc.", ticker: "META", price: "638.08", change: "-1.45%", color: "text-red-500" },
+    { name: "MicroStrategy Inc.", ticker: "MSTR", price: "344.51", change: "-2.59%", color: "text-red-500" },
+    { name: "Microsoft Corporation", ticker: "MSFT", price: "425.44", change: "-4.19%", color: "text-red-500" },
+    { name: "Apple Inc.", ticker: "AAPL", price: "226.80", change: "+1.80%", color: "text-green-500" },
+  ];
+
+  const mostVol = [
+    { name: "Neuphoria Therapeutics", ticker: "NEUP", price: "3.95", change: "-10.02%", color: "text-red-500" },
+    { name: "Next Technology Holdings", ticker: "NXTT", price: "1.45", change: "+3.57%", color: "text-green-500" },
+    { name: "Canoo Inc.", ticker: "GOEV", price: "0.4250", change: "-10.53%", color: "text-red-500" },
+    { name: "Nvni Group Limited", ticker: "NVNI", price: "3.43", change: "-22.05%", color: "text-red-500" },
+    { name: "Allurion Technologies", ticker: "ALUR", price: "7.35", change: "-15.42%", color: "text-red-500" },
+    { name: "Carbon Revolution", ticker: "CREV", price: "3.62", change: "-19.20%", color: "text-red-500" },
+  ];
+
   return (
     <div className='flex flex-col min-h-screen bg-gray-100'>
       <Navbar2 />
       <div className='flex justify-center items-center h-[65vh] pb-20'>
-        <p className='text-6xl font-semibold text-gray-800'>Markets, everywhere</p>
+        <CountrySelector/>
       </div>
       <div className="p-6 bg-white">
         {/* Header */}
@@ -159,6 +177,50 @@ const ChartsHome = () => {
           <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10">
             <ChevronRight className="text-gray-700" />
           </button>
+        </div>
+      </div>
+
+      {/* High Volume Stocks Section */}
+      <div className='p-6 bg-white'>
+        <div className="flex items-center gap-2 mb-4">
+          <h1 className="text-2xl font-semibold">High Volume Stocks</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {highVol.map((stock, index) => (
+            <div key={index} className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+              <div>
+                <h3 className="text-lg font-bold">{stock.name}</h3>
+                <p className="text-gray-500">{stock.ticker}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-lg font-bold">{stock.price} USD</p>
+                <p className={`${stock.color} text-sm font-semibold`}>{stock.change}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Most Volatile Stocks Section */}
+      <div className='p-6 bg-white'>
+        <div className="flex items-center gap-2 mb-4">
+          <h1 className="text-2xl font-semibold">Most Volatile Stocks</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mostVol.map((stock, index) => (
+            <div key={index} className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+              <div>
+                <h3 className="text-lg font-bold">{stock.name}</h3>
+                <p className="text-gray-500">{stock.ticker}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-lg font-bold">{stock.price} USD</p>
+                <p className={`${stock.color} text-sm font-semibold`}>{stock.change}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
