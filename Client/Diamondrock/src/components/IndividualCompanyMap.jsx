@@ -3,6 +3,7 @@ import { TrendingUp, ChevronUp } from 'lucide-react';
 import StockChart from './charts/CandeStickStockChart';
 
 function IndividualCompanyMap() {
+  const [displayedVolume, setDisplayedVolume] = useState('243.81');
   const [time, setTime] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
   const periods = ['1D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'];
@@ -71,35 +72,37 @@ function IndividualCompanyMap() {
             
           {/* Volume */}
           <div className="mt-1 text-sm text-gray-600">
-            Vol <span className="text-emerald-600">243.81M</span>
+            Vol <span className="text-emerald-600">{displayedVolume}M</span>
           </div>
         </div>
           
         {/* Chart Component */}
         <div className="flex-1 pt-11 px-1" style={{ paddingBottom: 0 }}>
-          <StockChart selectedPeriod={selectedPeriod} />
+          <StockChart selectedPeriod={selectedPeriod} setDisplayedVolume={setDisplayedVolume}/>
         </div>
 
         {/* Time Period Selector */}
         <nav
-          className="flex gap-3 text-sm p-2 border-t border-gray-200"
+          className="flex justify-between text-sm p-2 border-t border-gray-200"
           aria-label="Chart time periods"
         >
-          {periods.map((period) => (
-            <button
-              key={period}
-              className={`px-3 py-1 rounded transition-colors ${
-                selectedPeriod === period
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'hover:bg-gray-100'
-              }`}
-              onClick={() => setSelectedPeriod(period)}
-              aria-pressed={selectedPeriod === period}
-            >
-              {period}
-            </button>
-          ))}
-          <div>{time}</div>
+          <div className="flex gap-3">
+            {periods.map((period) => (
+              <button
+                key={period}
+                className={`px-3 py-1 rounded transition-colors ${
+                  selectedPeriod === period
+                    ? 'bg-blue-100 text-blue-600'
+                    : 'hover:bg-gray-100'
+                }`}
+                onClick={() => setSelectedPeriod(period)}
+                aria-pressed={selectedPeriod === period}
+              >
+                {period}
+              </button>
+            ))}
+          </div>
+          <div className="px-4 pt-1 pb-0">{time}</div>
         </nav>
     </section>
   );

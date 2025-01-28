@@ -2,10 +2,48 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createChart } from 'lightweight-charts';
 import { candleStickData } from '../../dummy_data/CandleStickData';
 
-const CandleStickStockChart = ({ selectedPeriod }) => {
+const CandleStickStockChart = (props) => {
   const chartContainerRef = useRef(null);
   const [hoveredPrice, setHoveredPrice] = useState(null);
   const [hoveredVolume, setHoveredVolume] = useState(null);
+
+  // Calculate visible range based on selectedPeriod
+  const calculateVisibleRange = (period) => {
+    const now = Date.parse("2019-05-24") / 1000; // Current time in seconds
+    let startTime;
+
+    switch (period) {
+      case '1D': // Last 1 day
+        startTime = now - 24 * 60 * 60;
+        break
+      case '5D': // Last 5 days
+        startTime = now - 5 * 24 * 60 * 60;
+        break;
+      case '1M': // Last 1 month (approx 30 days)
+        startTime = now - 30 * 24 * 60 * 60;
+        break;
+      case '3M': // Last 3 months
+        startTime = now - 90 * 24 * 60 * 60;
+        break;
+      case '6M': // Last 6 months
+        startTime = now - 180 * 24 * 60 * 60;
+        break;
+      case 'YTD': // Year to date
+        startTime = Date.parse("2019-01-01") / 1000;
+        break;
+      case '1Y': // Last 1 year
+        startTime = now - 365 * 24 * 60 * 60;
+        break;
+      case '5Y': // Last 5 years
+        startTime = now - 5 * 365 * 24 * 60 * 60;
+        break;
+      default: // Show all data
+        startTime = Date.parse("2018-10-19") / 1000;
+        break;
+    }
+
+    return { from: startTime, to: now };
+  };
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -71,14 +109,14 @@ const CandleStickStockChart = ({ selectedPeriod }) => {
       priceScaleId: '', // set as an overlay by setting a blank priceScaleId
     // set the positioning of the volume series
     scaleMargins: {
-        top: 0.8, // highest point of the series will be 70% away from the top
+        top: 0.7, // highest point of the series will be 70% away from the top
         bottom: 0,
     },
     });
     
     const volumeData = candleStickData.map(item => ({
       time: item.time,
-      value: (item.high-item.low),
+      value: (item.high-item.low) * 100000000,
       color: item.close > item.open ? '#92d2cc' : '#f7a9a7'
     }));
 
@@ -86,10 +124,12 @@ const CandleStickStockChart = ({ selectedPeriod }) => {
 
     volumeSeries.priceScale().applyOptions({
       scaleMargins: {
-          top: 0.8, // highest point of the series will be 70% away from the top
+          top: 0.7, // highest point of the series will be 70% away from the top
           bottom: 0, // lowest point will be at the very bottom.
       },
     });
+
+    chart.timeScale().setVisibleRange(calculateVisibleRange(props.selectedPeriod));
 
     // Add price and volume tooltips
     chart.subscribeCrosshairMove(param => {
@@ -97,9 +137,11 @@ const CandleStickStockChart = ({ selectedPeriod }) => {
         const data = candleStickData.find(d => d.time === param.time);
         if (data) {
           setHoveredPrice(`₹${data.close.toFixed(2)}`);
+          
           const volume = volumeData.find(d => d.time === param.time);
           if (volume) {
             setHoveredVolume(`${(volume.value / 1000000).toFixed(2)}M`);
+            props.setDisplayedVolume(`${(volume.value / 1000000).toFixed(2)}`)
           }
         }
       } else {
@@ -123,7 +165,7 @@ const CandleStickStockChart = ({ selectedPeriod }) => {
       chart.remove();
       window.removeEventListener('resize', handleResize);
     };
-  }, [selectedPeriod]);
+  }, [props.selectedPeriod]);
 
   return (
     <div className="relative">
