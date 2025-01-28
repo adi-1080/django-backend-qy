@@ -3,9 +3,8 @@ import IndividualCompanyMap from '../components/IndividualCompanyMap'
 import WatchlistPanel from '../components/WatchlistPanel';
 import { Menu, Search, BarChart2, Grid, Bell, Undo, RotateCcw, Save, Eye, Plus, MoreHorizontal, Maximize2, Camera } from 'lucide-react';
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
-import { Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle } from 'lucide-react';
+import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle } from 'lucide-react';
 import '../superchartsFonts.css'
-
 
 function SuperChartsInnerPage() {
   const [isWatchlistPanelOpen, setIsWatchlistPanelOpen] = useState(false);
@@ -19,21 +18,21 @@ function SuperChartsInnerPage() {
   return (
     <div className="h-[100vh] flex flex-col gap-1 bg-gray-200">
         {/* Header */}
-        <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2" style={{ height: "7%" }}>
+        <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2 font-thin text-sm" style={{ height: "7%" }}>
           {/* Left Section */}
           <div className="flex items-center space-x-2">
-            <button className="relative p-2 hover:bg-gray-100 rounded-lg">
+            <button className="relative p-1 hover:bg-gray-100 rounded-lg">
               <Menu size={25} />
               <span className="absolute top-0 -right-1 bg-red-500 border-2 border-white text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span>
             </button>
             
-            <button className="flex items-center rounded-lg hover:bg-gray-100 px-2">
-              <Search size={16} className="" />
+            <button className="flex items-center rounded-lg font-bold hover:bg-gray-100 px-2">
+              <Search size={16} />
               RELIANCE
             </button>
             
-            <button className="p-1 hover:bg-gray-100 rounded-lg">
-              <Plus size={20} />
+            <button className="border border-black hover:bg-gray-100 rounded-lg" style={{ borderRadius: '50%', padding: '0.1rem' }}>
+              <Plus size={14}/>
             </button>
             
             <div className="flex items-center space-x-1 px-2">
@@ -127,8 +126,8 @@ function SuperChartsInnerPage() {
           <div style={{ ...(isWatchlistPanelOpen ? { display: 'none' } : {}) }}>
             <WatchlistPanel />
           </div>
-          <aside className='w-12 bg-white border-l-2 flex-col items-center py-2'>
-          <SidebarIcon icon={<Menu size={20} onClick={()=>{setIsWatchlistPanelOpen(!isWatchlistPanelOpen)}}/>}/>
+          <aside className={`w-12 bg-white border-l-2 flex-col ${isWatchlistPanelOpen ? 'rounded-tl':''} items-center py-2`}>
+          <SidebarIcon icon={<SquareMenu size={30} onClick={()=>{setIsWatchlistPanelOpen(!isWatchlistPanelOpen)}}/>}/>
           <SidebarIcon icon={<Clock size={20} />} />
           <SidebarIcon icon={<Layers size={20} />} />
           <SidebarIcon icon={<MessageSquare size={20} />} />
