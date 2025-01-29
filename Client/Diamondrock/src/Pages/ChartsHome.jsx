@@ -48,6 +48,19 @@ const ChartsHome = () => {
     { name: "Allurion Technologies", ticker: "ALUR", price: "7.35", change: "-15.42%", color: "text-red-500" },
     { name: "Carbon Revolution", ticker: "CREV", price: "3.62", change: "-19.20%", color: "text-red-500" },
   ];
+  const gainers = [
+    { name: "Planet Image International Limited", ticker: "YIBO", price: 5.14, change: "+66.88%" },
+    { name: "Diginex Limited", ticker: "DGNX", price: 14.99, change: "+59.13%" },
+    { name: "Haoxi Health Technology Limited", ticker: "HAO", price: 3.70, change: "+47.41%" },
+    { name: "TransCode Therapeutics, Inc.", ticker: "T", price: 9.94, change: "+45.53%" },
+  ];
+
+  const losers = [
+    { name: "MiNK Therapeutics, Inc.", ticker: "INKT", price: 5.51, change: "-93.77%" },
+    { name: "Revelation Biosciences, Inc.", ticker: "REVB", price: 4.24, change: "-93.05%" },
+    { name: "SAB Biotherapeutics, Inc.", ticker: "SABS", price: 2.07, change: "-52.52%" },
+    { name: "JetBlue Airways Corporation", ticker: "JBLU", price: 6.01, change: "-25.71%" },
+  ];
 
   return (
     <div className='flex flex-col min-h-screen bg-gray-100'>
@@ -223,6 +236,48 @@ const ChartsHome = () => {
           ))}
         </div>
       </div>
+      {/* Stock gainers and loosers section*/ }
+      <div className="flex justify-center p-6 bg-gray-100">
+      <div className="grid grid-cols-2 gap-10 w-full max-w-4xl">
+        {/* Stock Gainers */}
+        <div>
+          <h2 className="text-xl font-bold text-blue-600">Stock Gainers</h2>
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            {gainers.map((stock, index) => (
+              <div key={index} className="flex justify-between p-2 border-b last:border-none">
+                <div>
+                  <h3 className="font-semibold">{stock.name}</h3>
+                  <span className="text-gray-500 text-sm">{stock.ticker}</span>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold">{stock.price} USD</p>
+                  <p className="text-green-500 font-semibold">{stock.change}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Stock Losers */}
+        <div>
+          <h2 className="text-xl font-bold text-red-600">Stock Losers</h2>
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            {losers.map((stock, index) => (
+              <div key={index} className="flex justify-between p-2 border-b last:border-none">
+                <div>
+                  <h3 className="font-semibold">{stock.name}</h3>
+                  <span className="text-gray-500 text-sm">{stock.ticker}</span>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold">{stock.price} USD</p>
+                  <p className="text-red-500 font-semibold">{stock.change}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   );
 };
