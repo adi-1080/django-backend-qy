@@ -5,7 +5,7 @@ import { Menu, Search, BarChart2, Grid, Bell, Undo, RotateCcw, Save, Eye, Plus, 
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
 import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle } from 'lucide-react';
 import '../superchartsFonts.css'
-
+import {Navbar} from '../components/Navbar'
 function SuperChartsInnerPage() {
   const [isWatchlistPanelOpen, setIsWatchlistPanelOpen] = useState(false);
   const SidebarIcon = ({ icon }) => {
@@ -17,31 +17,35 @@ function SuperChartsInnerPage() {
   };
   return (
     <div className="h-[100vh] flex flex-col gap-1 bg-gray-200">
+     <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2 font-thin text-sm" style={{ height: "7%" }}>
+     <Navbar />
+     </div>
         {/* Header */}
-        <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2 font-thin text-sm" style={{ height: "7%" }}>
-          {/* Left Section */}
-          <div className="flex items-center space-x-2">
-            <button className="relative p-1 hover:bg-gray-100 rounded-lg">
+       
+        {/* <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2 font-thin text-sm" style={{ height: "7%" }}>
+          Left Section */}
+          {/* <div className="flex items-center space-x-2"> */}
+            {/* <button className="relative p-1 hover:bg-gray-100 rounded-lg">
               <Menu size={25} />
               <span className="absolute top-0 -right-1 bg-red-500 border-2 border-white text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span>
-            </button>
+            </button> */}
             
-            <button className="flex items-center rounded-lg font-bold hover:bg-gray-100 px-2">
-              <Search size={16} />
+            {/* <button className="flex items-center rounded-lg font-bold hover:bg-gray-100 px-2">
+               <Search size={16} /> 
               RELIANCE
-            </button>
+            </button> */}
             
             <button className="border border-black hover:bg-gray-100 rounded-lg" style={{ borderRadius: '50%', padding: '0.1rem' }}>
-              <Plus size={14}/>
+              {/* <Plus size={14}/> */}
             </button>
             
             <div className="flex items-center space-x-1 px-2">
-              <span>5m</span>
+              {/* <span>5m</span> */}
             </div>
-          </div>
+          {/* </div> */}
 
           {/* Center Section */}
-          <div className="flex items-center space-x-4">
+          {/* <div className="flex items-center space-x-4">
             <button className="p-2 hover:bg-gray-100 rounded-lg">
               <BarChart2 size={20} />
             </button>
@@ -57,31 +61,31 @@ function SuperChartsInnerPage() {
             <button className="p-2 hover:bg-gray-100 rounded-lg">
               <RotateCcw size={20} />
             </button>
-          </div>
+          </div> */}
 
           {/* Right Section */}
           <div className="flex items-center space-x-2">
             <div className="flex items-center">
               <button className="flex items-center px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-lg">
-                <Save size={16} className="mr-1" />
-                <span>Save</span>
+                {/* <Save size={16} className="mr-1" /> */}
+                {/* <span>Save</span> */}
               </button>
             </div>
             
             <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <Camera size={20} />
+              {/* <Camera size={20} /> */}
             </button>
             <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <Eye size={20} />
+              {/* <Eye size={20} /> */}
             </button>
             <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <MoreHorizontal size={20} />
+              {/* <MoreHorizontal size={20} /> */}
             </button>
             <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <Maximize2 size={20} />
+              {/* <Maximize2 size={20} /> */}
             </button>
           </div>
-        </div>
+        {/* </div> */}
 
       {/* Main Content */}
       <div className="flex flex-1 gap-1 bg-gray-200" style={{ height: "93%" }}>
