@@ -1,5 +1,5 @@
-import { Calendar } from 'lucide-react';
 import React from 'react';
+import { Calendar } from 'lucide-react';
 
 export default function Upcoming() {
   const [activeFilter, setActiveFilter] = React.useState('Corp. Actions');
@@ -51,7 +51,7 @@ export default function Upcoming() {
           <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                {action.logo || action.symbol}
+                {action.symbol}
               </div>
               <div className="flex-1">
                 <h3 className="font-medium">{action.company}</h3>
@@ -71,27 +71,27 @@ export default function Upcoming() {
 
 const upcomingActions = [
   {
-    company: "Bharat Petroleum Corporation Ltd.",
-    symbol: "BPCL",
-    details: "Interim Dividend 50% @ Rs. 5 per share",
-    date: "29 Jan 2025"
+    company: "Accelya Solutions India Ltd.",
+    symbol: "ACCELYA",
+    details: "Interim Dividend 500% @ Rs. 50 per share",
+    date: "30 Jan 2025"
   },
   {
-    company: "Intelligent Supply Chain Infrastructure Trust",
-    symbol: "ISIT",
-    details: "Dividend",
-    date: "29 Jan 2025"
+    company: "Balkrishna Industries Ltd.",
+    symbol: "BKT",
+    details: "Interim Dividend 200% @ Rs. 4 per share",
+    date: "30 Jan 2025"
   },
   {
-    company: "Mindspace Business Parks REIT",
-    symbol: "MINDSPACE",
-    details: "Dividend",
-    date: "29 Jan 2025"
+    company: "Coforge Ltd.",
+    symbol: "COFORGE",
+    details: "Interim Dividend 190% @ Rs. 19 per share",
+    date: "30 Jan 2025"
   },
   {
-    company: "MPS Ltd.",
-    symbol: "MPS",
-    details: "Interim Dividend 330% @ Rs. 33 per share",
-    date: "29 Jan 2025"
+    company: "Housing & Urban Development Corporation Ltd.",
+    symbol: "HUDCO",
+    details: "Interim Dividend 20.5% @ Rs. 2.05 per share",
+    date: "30 Jan 2025"
   }
 ];

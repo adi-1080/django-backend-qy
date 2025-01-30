@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, TrendingDown, BarChart2 } from 'lucide-react';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 export default function FIIDII() {
   return (
@@ -8,30 +8,30 @@ export default function FIIDII() {
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-semibold mb-4">NIFTY</h3>
           <div className="flex items-baseline space-x-2">
-            <span className="text-2xl font-bold">23,163.10</span>
+            <span className="text-2xl font-bold">23,249.50</span>
             <span className="text-green-500 flex items-center">
               <TrendingUp className="w-4 h-4 mr-1" />
-              +205.85 (0.9%)
+              +86.40 (0.4%)
             </span>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-semibold mb-4">INDIA VIX</h3>
           <div className="flex items-baseline space-x-2">
-            <span className="text-2xl font-bold">18.64</span>
-            <span className="text-green-500 flex items-center">
-              <TrendingUp className="w-4 h-4 mr-1" />
-              +0.44 (2.4%)
+            <span className="text-2xl font-bold">17.39</span>
+            <span className="text-red-500 flex items-center">
+              <TrendingDown className="w-4 h-4 mr-1" />
+              -1.25 (6.7%)
             </span>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-semibold mb-4">SENSEX</h3>
           <div className="flex items-baseline space-x-2">
-            <span className="text-2xl font-bold">76,532.96</span>
+            <span className="text-2xl font-bold">76,759.81</span>
             <span className="text-green-500 flex items-center">
               <TrendingUp className="w-4 h-4 mr-1" />
-              +631.55 (0.8%)
+              +226.85 (0.3%)
             </span>
           </div>
         </div>
@@ -69,8 +69,8 @@ export default function FIIDII() {
 }
 
 const fiiDiiData = [
-  { category: 'FII Cash Market (Provisional)', value: -2586.43 },
-  { category: 'DII Cash Market (Provisional)', value: 1792.71 },
+  { category: 'FII Cash Market (Provisional)', value: -4582.95 },
+  { category: 'DII Cash Market (Provisional)', value: 2165.89 },
   { category: 'FII Index Futures', value: 165.78 },
   { category: 'FII Index Options', value: 21593.10 },
   { category: 'FII Stock Futures', value: 2868.08 },

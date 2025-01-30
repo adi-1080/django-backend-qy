@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
+// NewsUpdates.js
 import { Clock } from 'lucide-react';
-import Updates from './Updates';
-import Upcoming from './Upcoming';
+import React from 'react';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import FIIDII from './FIIDII';
 import FuturesOI from './FuturesOI';
+import Upcoming from './Upcoming';
+import Updates from './Updates';
 
 export default function NewsUpdates() {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState('Updates');
 
   return (
     <div>
@@ -16,23 +16,31 @@ export default function NewsUpdates() {
         <h1 className="text-2xl font-bold">News & Updates</h1>
         <div className="flex items-center space-x-2 text-sm">
           <Clock className="w-4 h-4 text-gray-500" />
-          <span className="text-gray-500">Wed, 29 Jan 2025</span>
+          <span className="text-gray-500">Thu, 30 Jan 2025</span>
         </div>
       </div>
 
-      {/* Navigation Tabs */}
       <div className="border-b mb-6">
         <div className="flex space-x-8">
           <TabLink to="/news" label="Updates" active={location.pathname === '/news'} />
-          <TabLink to="/news/upcoming" label="Upcoming" active={location.pathname === '/news/upcoming'} />
-          <TabLink to="/news/results" label="Results" active={location.pathname === '/news/results'} />
-          <TabLink to="/news/fii-dii" label="FII/DII" active={location.pathname === '/news/fii-dii'} />
-          <TabLink to="/news/futures-oi" label="Futures OI" active={location.pathname === '/news/futures-oi'} />
-          <TabLink to="/news/options-oi" label="Options OI" active={location.pathname === '/news/options-oi'} />
+          <TabLink 
+            to="/news/upcoming" 
+            label="Upcoming" 
+            active={location.pathname === '/news/upcoming'} 
+          />
+          <TabLink 
+            to="/news/fii-dii" 
+            label="FII/DII" 
+            active={location.pathname === '/news/fii-dii'} 
+          />
+          <TabLink 
+            to="/news/futures-oi" 
+            label="Futures OI" 
+            active={location.pathname === '/news/futures-oi'} 
+          />
         </div>
       </div>
 
-      {/* Content Area */}
       <Routes>
         <Route index element={<Updates />} />
         <Route path="upcoming" element={<Upcoming />} />

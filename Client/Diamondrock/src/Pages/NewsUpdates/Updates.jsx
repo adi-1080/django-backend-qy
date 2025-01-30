@@ -34,21 +34,21 @@ export default function Updates() {
 
 const newsUpdates = [
   {
-    title: "Ministry of Corporate Affairs has approved incorporation of Wholly Owned Subsidiary of Dharmaj Crop Guard Limited in the name of DCGL Industries Limited",
-    sector: "Pesticides & Agrochemicals",
+    title: "Wipro Limited secured Multi-Million-Dollar Deal by Etihad Airways for IT Transformation and Cost Optimization",
+    sector: "IT - Software",
     time: "2 hours ago",
-    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
   },
   {
-    title: "Azad Engineering Limited has signed a Contract & Price Agreement with Siemens Energy Global GmbH & Co. KG, for manufacturing and supply of mission critical components",
+    title: "Praj Industries reported total income of Rs 866.79 crores, up by 3.47% (YoY) & profit of Rs 41.10 crores, up by 41.62% (YoY) in Q3 FY 2025",
     sector: "Engineering - Industrial Equipments",
     time: "3 hours ago",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
   },
   {
-    title: "Tata Motors Limited reported total income of Rs 115,365 crores, up by 2.93% (YoY) & profit of Rs 5,578 crores, down by 21.93% (YoY) in Q3 FY 2025",
-    sector: "Automobiles-Trucks/Lcv",
+    title: "Navin Fluorine International Limited reported total revenue of Rs 616.68 crores, up by 20.43% (YoY) & net profit of Rs 83.60 crores, up by 7.15% (YoY) in Q3 FY 2025",
+    sector: "Chemicals",
     time: "4 hours ago",
-    image: "https://images.unsplash.com/photo-1551522435-a13afa10f103?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
   }
 ];
