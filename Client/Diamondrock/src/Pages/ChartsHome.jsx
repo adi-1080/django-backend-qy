@@ -1,7 +1,8 @@
 import { Navbar2 } from '../components/trading/Navbar2';
-import { ChevronRight, ChevronLeft, LineChart, LayoutGrid, Code } from "lucide-react";
-import { useRef } from 'react';
+import { ChevronRight, ChevronLeft, LineChart, LayoutGrid, Code,Sun } from "lucide-react";
+import React,{ useRef } from 'react';
 import CountrySelector from '../components/CountrySelector';
+import '../App.css';
 
 
 const ChartsHome = () => {
@@ -177,9 +178,44 @@ const ChartsHome = () => {
       </div>
     );
   };
- 
+  const companies = [
+    {
+      symbol: 'MTAL',
+      name: 'MAC Copper Limited',
+      actual: '0.26',
+      estimate: '0.26'
+    },
+    {
+      symbol: 'GP1',
+      name: 'Group 1 Automotive, Inc.',
+      actual: '10.02',
+      estimate: '9.11'
+    },
+    {
+      symbol: 'CPF',
+      name: 'Central Pacific Financial Corp New',
+      actual: '0.42',
+      estimate: '0.62'
+    },
+    {
+      symbol: 'XYZ',
+      name: 'Example Company 1',
+      actual: '1.45',
+      estimate: '1.50'
+    }
+  ];
+  function App() {
+    const scrollRef = useRef(null);
+  
+    const handleScroll = (direction) => {
+      if (scrollRef.current) {
+        const scrollAmount = 300;
+        scrollRef.current.scrollLeft += direction === 'right' ? scrollAmount : -scrollAmount;
+      }
+    };}
 
- 
+
+
 
   return (
     <div className='flex flex-col min-h-screen bg-gray-100'>
@@ -363,6 +399,80 @@ const ChartsHome = () => {
       </div>
     </div>
       {/* Calender section*/ }
+      <div className="p-8 bg-white">
+      <h2 className="text-2xl font-bold mb-6">Earnings Calendar</h2>
+      
+      <div className="relative">
+        {/* Left scroll button */}
+        <button 
+          onClick={() => handleScroll('left')}
+          className="absolute left-0 top-1/2 z-10 -translate-y-1/2 bg-gray-200 p-2 rounded-full"
+        >
+          <ChevronLeft />
+        </button>
+
+        {/* Cards container */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto px-12"
+          style={{
+            scrollBehavior: 'smooth',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
+          {companies.map((company) => (
+            <div 
+              key={company.symbol}
+              className="flex-none w-[300px] p-2 bg-white rounded-lg shadow-sm border border-gray-200"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <span>Today</span>
+                <Sun className="text-amber-400" />
+              </div>
+              
+              <div className="mb-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center text-white">
+                    {company.symbol.charAt(0)}
+                  </div>
+                  <span className="font-medium">{company.symbol}</span>
+                </div>
+                <p className="text-gray-600 text-sm">{company.name}</p>
+              </div>
+
+              <div className="flex justify-between">
+                <div>
+                  <p className="text-gray-500 text-sm">Actual</p>
+                  <p>{company.actual} <span className="text-gray-500 text-sm">USD</span></p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-sm">Estimate</p>
+                  <p>{company.estimate} <span className="text-gray-500 text-sm">USD</span></p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Right scroll button */}
+        <button 
+          onClick={() => handleScroll('right')}
+          className="absolute right-0 top-1/2 z-10 -translate-y-1/2 bg-gray-200 p-2 rounded-full"
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      {/* See all events link */}
+      <div className="mt-4">
+        <a href="#" className="text-blue-500 text-sm flex items-center gap-1">
+          See all events
+          <ChevronRight className="w-4 h-4" />
+        </a>
+      </div>
+    </div>
       
     </div>
   );
