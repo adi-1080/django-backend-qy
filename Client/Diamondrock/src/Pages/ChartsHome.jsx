@@ -213,8 +213,7 @@ const ChartsHome = () => {
         scrollRef.current.scrollLeft += direction === 'right' ? scrollAmount : -scrollAmount;
       }
     };}
-
-
+    
 
 
   return (
@@ -473,6 +472,169 @@ const ChartsHome = () => {
         </a>
       </div>
     </div>
+    {/* world stocks*/ }
+    <div className="p-6 bg-white">
+        {/* World stocks Header */}
+        <div className="flex items-center gap-2 mb-4">
+          <h1 className="text-3xl font-bold">World Stocks</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+
+        {/* world stocks Cards with Scrollable Feature */}
+        <div className="relative">
+          <button 
+            onClick={() => scroll('left')} 
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronLeft className="text-gray-700" />
+          </button>
+
+          <div 
+            ref={scrollRef} 
+            className="flex gap-20 overflow-x-auto scroll-smooth no-scrollbar"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {indices.map((index) => (
+              <div key={index.id} className="min-w-[300px] flex items-center hover:bg-gray-100 rounded-[100px] py-3 text-sm px-2 mb-3">
+                <div className={`w-10 h-10 flex items-center justify-center rounded-full text-white ${index.color}`}>
+                  {index.id}
+                </div>
+                <div className="ml-4">
+                  <p className="text-gray-700 font-medium">{index.name}</p>
+                  <p className="text-black text-lg font-bold">
+                    {index.value} <span className="text-xs text-gray-400">USD</span>
+                  </p>
+                </div>
+                <p className={`ml-4 text-sm ${index.change.includes('-') ? 'text-red-500' : 'text-green-500'}`}>
+                  {index.change}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <button 
+            onClick={() => scroll('right')} 
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronRight className="text-gray-700" />
+          </button>
+        </div>
+
+        {/* Placeholder for the Graph */}
+        <div className="mt-8 h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+          <p className="text-gray-400">Graph will go here</p>
+        </div>
+
+        <div className='flex justify-between'>
+          {/* Timeframe Selection */}
+          <div className="mt-6 flex gap-4">
+            {["1D", "1M", "3M", "1Y", "5Y", "All"].map((time) => (
+              <button
+                key={time}
+                className={`px-4 py-2 rounded-md text-sm transition-colors ${
+                  time === "1D"
+                    ? "bg-gray-200 text-black font-bold"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+
+          {/* Bottom Action Buttons */}
+          <div className="mt-4 flex gap-4">
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <Code className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LineChart className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LayoutGrid className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
+      
+        {/* world biggest companies world largest employers*/ }
+        
+    
+      {/* Calender section world stocks*/ }
+      <div className="p-8 bg-white">
+      <h2 className="text-2xl font-bold mb-6">Earnings Calendar</h2>
+      
+      <div className="relative">
+        {/* Left scroll button */}
+        <button 
+          onClick={() => handleScroll('left')}
+          className="absolute left-0 top-1/2 z-10 -translate-y-1/2 bg-gray-200 p-2 rounded-full"
+        >
+          <ChevronLeft />
+        </button>
+
+        {/* Cards container */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto px-12"
+          style={{
+            scrollBehavior: 'smooth',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
+          {companies.map((company) => (
+            <div 
+              key={company.symbol}
+              className="flex-none w-[300px] p-2 bg-white rounded-lg shadow-sm border border-gray-200"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <span>Today</span>
+                <Sun className="text-amber-400" />
+              </div>
+              
+              <div className="mb-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center text-white">
+                    {company.symbol.charAt(0)}
+                  </div>
+                  <span className="font-medium">{company.symbol}</span>
+                </div>
+                <p className="text-gray-600 text-sm">{company.name}</p>
+              </div>
+
+              <div className="flex justify-between">
+                <div>
+                  <p className="text-gray-500 text-sm">Actual</p>
+                  <p>{company.actual} <span className="text-gray-500 text-sm">USD</span></p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-sm">Estimate</p>
+                  <p>{company.estimate} <span className="text-gray-500 text-sm">USD</span></p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Right scroll button */}
+        <button 
+          onClick={() => handleScroll('right')}
+          className="absolute right-0 top-1/2 z-10 -translate-y-1/2 bg-gray-200 p-2 rounded-full"
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      {/* See all events link */}
+      <div className="mt-4">
+        <a href="#" className="text-blue-500 text-sm flex items-center gap-1">
+          See all events
+          <ChevronRight className="w-4 h-4" />
+        </a>
+      </div>
+      </div>
+      </div>
       
     </div>
   );
