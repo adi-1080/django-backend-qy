@@ -3,6 +3,7 @@ import { ChevronRight, ChevronLeft, LineChart, LayoutGrid, Code } from "lucide-r
 import { useRef } from 'react';
 import CountrySelector from '../components/CountrySelector';
 
+
 const ChartsHome = () => {
   const scrollRef = useRef(null);
 
@@ -49,18 +50,136 @@ const ChartsHome = () => {
     { name: "Carbon Revolution", ticker: "CREV", price: "3.62", change: "-19.20%", color: "text-red-500" },
   ];
   const gainers = [
-    { name: "Planet Image International Limited", ticker: "YIBO", price: 5.14, change: "+66.88%" },
-    { name: "Diginex Limited", ticker: "DGNX", price: 14.99, change: "+59.13%" },
-    { name: "Haoxi Health Technology Limited", ticker: "HAO", price: 3.70, change: "+47.41%" },
-    { name: "TransCode Therapeutics, Inc.", ticker: "T", price: 9.94, change: "+45.53%" },
+    {
+      name: 'Planet Image International Limited',
+      symbol: 'YIBO',
+      price: '5.14',
+      percentage: '66.88'
+    },
+    {
+      name: 'Diginex Limited',
+      symbol: 'DGIX',
+      price: '14.99',
+      percentage: '59.13'
+    },
+    {
+      name: 'Hanxi Health Technology Limited',
+      symbol: 'HAO',
+      price: '3.70',
+      percentage: '47.41'
+    },
+    {
+      name: 'TransCode Therapeutics, Inc.',
+      symbol: 'RNAZ',
+      price: '9.54',
+      percentage: '45.53'
+    },
+    {
+      name: 'Phio Pharmaceuticals Corp.',
+      symbol: 'PHIO',
+      price: '2.55',
+      percentage: '26.24'
+    },
+    {
+      name: 'Monopar Therapeutics Inc.',
+      symbol: 'MNPR',
+      price: '41.82',
+      percentage: '24.70'
+    }
   ];
 
   const losers = [
-    { name: "MiNK Therapeutics, Inc.", ticker: "INKT", price: 5.51, change: "-93.77%" },
-    { name: "Revelation Biosciences, Inc.", ticker: "REVB", price: 4.24, change: "-93.05%" },
-    { name: "SAB Biotherapeutics, Inc.", ticker: "SABS", price: 2.07, change: "-52.52%" },
-    { name: "JetBlue Airways Corporation", ticker: "JBLU", price: 6.01, change: "-25.71%" },
+    {
+      name: 'MINK Therapeutics, Inc.',
+      symbol: 'INKT',
+      price: '5.51',
+      percentage: '-93.77'
+    },
+    {
+      name: 'Revelation Biosciences, Inc.',
+      symbol: 'REVB',
+      price: '4.24',
+      percentage: '-93.05'
+    },
+    {
+      name: 'SAB Biotherapeutics, Inc.',
+      symbol: 'SABS',
+      price: '2.07',
+      percentage: '-52.52'
+    },
+    {
+      name: 'JetBlue Airways Corporation',
+      symbol: 'JBLU',
+      price: '6.01',
+      percentage: '-25.71'
+    },
+    {
+      name: 'NextEra Energy Partners, LP',
+      symbol: 'NEP',
+      price: '11.83',
+      percentage: '-25.13'
+    },
+    {
+      name: 'Gamehaus Holdings Inc.',
+      symbol: 'GMHS',
+      price: '2.19',
+      percentage: '-22.61'
+    }
   ];
+  const StockRow = ({ stock, isGainer }) => {
+    const percentColor = isGainer ? 'bg-emerald-600' : 'bg-red-500';
+    const percentValue = isGainer ? `+${stock.percentage}` : stock.percentage;
+    
+    return (
+      <div className="flex items-center justify-between py-2">
+        <div>
+          <div className="flex items-center gap-1">
+            <span className="font-medium">{stock.name}</span>
+            <span className="text-amber-500">★</span>
+          </div>
+          <span className="text-gray-500 text-sm">{stock.symbol}</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-right">
+            {stock.price}
+            <span className="text-gray-500 text-sm">USD</span>
+          </span>
+          <span className={`${percentColor} text-white px-2 py-1 rounded-md text-sm min-w-[4.5rem] text-center`}>
+            {percentValue}%
+          </span>
+        </div>
+      </div>
+    );
+  };
+  
+  const StockList = ({ title, stocks, isGainers }) => {
+    return (
+      <div className="w-1/2 px-4">
+        <div className="mb-4">
+          <h1 className="text-2xl font-semibold">{title}</h1>
+          <div className="flex gap-4 text-sm text-gray-600 border-b pb-2">
+            <span className="cursor-pointer">Regular hours</span>
+            <span className="cursor-pointer">Pre-market</span>
+            <span className="cursor-pointer">After-hours</span>
+          </div>
+        </div>
+        <div className="space-y-2">
+          {stocks.map((stock) => (
+            <StockRow key={stock.symbol} stock={stock} isGainer={isGainers} />
+          ))}
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-500 text-sm flex items-center">
+            See all stocks with largest daily {isGainers ? 'growth' : 'drop'}
+            <ChevronRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    );
+  };
+ 
+
+ 
 
   return (
     <div className='flex flex-col min-h-screen bg-gray-100'>
@@ -237,47 +356,14 @@ const ChartsHome = () => {
         </div>
       </div>
       {/* Stock gainers and loosers section*/ }
-      <div className="flex justify-center p-6 bg-gray-100">
-      <div className="grid grid-cols-2 gap-10 w-full max-w-4xl">
-        {/* Stock Gainers */}
-        <div>
-          <h2 className="text-xl font-bold text-blue-600">Stock Gainers</h2>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            {gainers.map((stock, index) => (
-              <div key={index} className="flex justify-between p-2 border-b last:border-none">
-                <div>
-                  <h3 className="font-semibold">{stock.name}</h3>
-                  <span className="text-gray-500 text-sm">{stock.ticker}</span>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold">{stock.price} USD</p>
-                  <p className="text-green-500 font-semibold">{stock.change}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Stock Losers */}
-        <div>
-          <h2 className="text-xl font-bold text-red-600">Stock Losers</h2>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            {losers.map((stock, index) => (
-              <div key={index} className="flex justify-between p-2 border-b last:border-none">
-                <div>
-                  <h3 className="font-semibold">{stock.name}</h3>
-                  <span className="text-gray-500 text-sm">{stock.ticker}</span>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold">{stock.price} USD</p>
-                  <p className="text-red-500 font-semibold">{stock.change}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="max-w-6xl mx-auto p-6" style={{ backgroundColor: "white", width: "100vw"}}>
+      <div className="flex">
+        <StockList title="Stock gainers>" stocks={gainers} isGainers={true} />
+        <StockList title="Stock losers>" stocks={losers} isGainers={false} />
       </div>
     </div>
+      {/* Calender section*/ }
+      
     </div>
   );
 };
