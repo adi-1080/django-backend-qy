@@ -3,6 +3,21 @@
 ### Stocks
 
 - GET search any stock 
+### Various type of symbols (currently in database):
+        ['nse-symbol','bse-code','nyse-symbol', 'nasdaq-symbol', 'nyse-symbol', 'sse-code', 'hk-code'] 
+<br>    NSE: National Stock Exchange 
+<br>    BSE: Bombay Stock Exchange 
+<br>    NYSE: New York Stock Exchange 
+<br>    NASDAQ: National Association of Securities Dealers Automatic Quotation System 
+<br>    SSE: Shanghai Stock Exchange 
+<br>    HK: Hong Kong Stock Exchange 
+<br>    
+<br>    Append: 
+<br>        .NS for NSE Companies
+<br>        .BOM for BSE Companies
+<br>        .HK for Hong Kong Companies
+<br>        .SS for Shanghai Comapnies
+
 http://localhost:3000/stock/search?name=reliance
 
 ### User Contact
