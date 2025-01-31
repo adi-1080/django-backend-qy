@@ -1,8 +1,51 @@
+import mongoose from 'mongoose';
 import axios from "axios";
 import dotenv from 'dotenv';
 dotenv.config();
 
 const djangoAPI = process.env.DJANGO_API;
+
+const search = async(req,res) => {
+  const searchTerm = req.query.name; 
+
+    if (!searchTerm) {
+        return res.status(400).json({ error: 'Name parameter is required' });
+    }
+
+    try {
+
+      const db = mongoose.connection.useDb('jsonutils');  
+
+        const collections = [
+            { name: 'nyse', searchFields: ['company-name', 'nyse-symbol'] },
+            { name: 'nasdaq', searchFields: ['company-name', 'nasdaq-symbol'] },
+            { name: 'nse-indices', searchFields: ['index-name', 'ticker-symbol'] },
+            { name: 'bse-indices', searchFields: ['index-name', 'ticker-symbol'] },
+            { name: 'nse-bse-companies', searchFields: ['company-name','nse-symbol']},
+            { name: 'sse', searchFields: ['company-name','sse-cde']},
+            { name: 'hk', searchFields: ['company-name','hk-code']},
+        ];
+        let results = [];
+
+        for (const coll of collections) {
+            const collection = db.collection(coll.name);
+
+            const searchQuery = {$or: coll.searchFields.map((field) => ({[field]: new RegExp(searchTerm, 'i')}))};
+
+            const companyResults = await collection.find(searchQuery).toArray();
+            results = results.concat(companyResults);
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No companies found' });
+        }
+
+        res.json(results); 
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 const getBalanceSheet = async (req, res) => {
   const { tickerSymbol } = req.params;
@@ -143,4 +186,5 @@ export default {
   getAnalysis,
   getNews,
   getProfile,
+  search,
 };

@@ -2,32 +2,8 @@
 
 ### Stocks
 
-- GET balance sheet for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_balance_sheet/WIPRO.NS/
-
-- GET stock statistics for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_stock_stats/WIPRO.NS/7/
-
-- GET cash flow for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_cash_flow/WIPRO.NS/
-
-- GET historical data for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_historical_data/WIPRO.NS/?period=1mo&interval=1d
-
-- GET sector and industry for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_sector_and_industry/WIPRO.NS/
-
-- GET calendar data for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_calendar/WIPRO.NS/
-
-- GET analysis data for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_analysis/WIPRO.NS/
-
-- GET news for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_news/WIPRO.NS/
-
-- GET profile for WIPRO
-https://node-backend-quickyearning.onrender.com/stock/get_profile/WIPRO.NS/
+- GET search any stock 
+http://localhost:3000/stock/search?name=reliance
 
 ### User Contact
 

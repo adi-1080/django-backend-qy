@@ -12,5 +12,6 @@ router.get('/get_stock_stats/:tickerSymbol/:quarters', stockController.getStockS
 router.get('/get_analysis/:tickerSymbol', stockController.getAnalysis);
 router.get('/get_news/:tickerSymbol', stockController.getNews);
 router.get('/get_profile/:tickerSymbol', stockController.getProfile);
+router.get('/search', stockController.search);
 
 export default router
