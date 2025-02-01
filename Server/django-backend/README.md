@@ -84,3 +84,10 @@ let response = await fetch(`http://127.0.0.1:8000/api/get_yesterday_and_today_cl
     })
 });
 ```
+- Valuation Measures <br>
+Link: `server_link/api/get_valuation_measures/<ticker_symbol>`<br>
+Example: `http://127.0.0.1:8000/api/get_valuation_measures/RELIANCE.NS`<br>
+
+- Trending Tickers <br>
+Link: `server_link/api/get_trending_tickers` <br>
+Example: `http://127.0.0.1:8000/api/get_trending_tickers`
