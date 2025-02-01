@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import json
 from datetime import datetime, date, timedelta
+from yahooquery import Ticker
 
 # Helper Functions
 
@@ -387,3 +388,16 @@ def get_yesterday_and_today_closing_data_as_json(ticker_symbols):
         "today_close": process_dataframe(today_data),
     }, cls=DateEncoder))  # Ensure JSON serialization
 
+def get_key_statistics_json(ticker):
+    # Define the stock ticker
+    ticker = "AAPL"
+
+    # Create a Ticker object
+    stock = Ticker(ticker)
+
+    # Fetch the key statistics
+    key_stats = stock.key_stats
+
+    key_stats_json = json.dumps(key_stats, indent=4)
+
+    return json.loads(key_stats_json)

@@ -75,6 +75,17 @@
                 console.error('Error fetching news:', error);
             }
         }
+
+        async function fetchAnalysis(ticker) {
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/get_analysis_data/${ticker}/`);
+                const data = await response.json();
+                console.log("Analysis Data: ", data);
+                document.getElementById("analysis").textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching analysis data:', error);
+            }
+        }
         
         async function fetchProfile(ticker) {
             try {
@@ -109,6 +120,32 @@
             }
         }
 
+        //Function to get valuation measures
+        async function fetchValuationMeasures(ticker){
+            try{
+                const response = await fetch(`http://127.0.0.1:8000/api/get_valuation_measures/${ticker}`);
+                const data = await response.json();
+                console.log('Valuation Measures:\n',data);
+                document.getElementById("valuation_measures").textContent = JSON.stringify(data,null,2);
+            }
+            catch(e){
+                console.log('Error fetching valuation measures');
+            }
+        }
+
+        //Function to get trending tickers
+        async function fetchTrendingTickers(){
+            try{
+                const response = await fetch(`http://127.0.0.1:8000/api/get_trending_tickers/`);
+                const data = await response.json();
+                console.log('Valuation Measures:\n',data);
+                document.getElementById("trending_tickers").textContent = JSON.stringify(data,null,2);
+            }
+            catch(e){
+                console.log('Error fetching trending tickers');
+            }
+        }
+
         // Call the functions on page load
         window.onload = () => {
             let ticker = "RELIANCE.NS";
@@ -118,6 +155,7 @@
             fetchSectorAndIndustry(ticker);
             fetchCalendar(ticker);
             fetchNews(ticker);
+            fetchAnalysis(ticker);
             fetchProfile(ticker);
             fetchMultipleHistoricalData(
                 tickers = ["AAPL", "GOOGL", "MSFT"],
@@ -126,6 +164,8 @@
                 interval = "1d",
                 period=null,
             );
+            fetchValuationMeasures(ticker);
+            fetchTrendingTickers();
         };
     </script>
 </head>
@@ -152,8 +192,20 @@
     
     <h2>Profile:</h2>
     <pre id="profile">Loading profile data...</pre>
+
+    <h2>Analysis:</h2>
+    <pre id="analysis">Loading analysis data...</pre>
     
     <h2>Multiple Historical data:</h2>
     <pre id="multipleHistoricalData">Loading multiple historical data...</pre>
+
+    <h2>Valuation Measures data:</h2>
+    <pre id="valuation_measures">Loading valuation measures data...</pre>
+
+    <h2>Trending Tickers data:</h2>
+    <pre id="trending_tickers">Loading trending tickers data...</pre>
+
+    <h2>Key Statistics data:</h2>
+    <pre id="key_statistics">Loading trending tickers data...</pre>
 </body>
 </html>

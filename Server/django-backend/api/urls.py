@@ -63,4 +63,19 @@ urlpatterns = [
         views.get_yesterday_and_today_closing_data,
         name="get-yesterday-and-today-closing-data"
     ),
+    path(
+        'get_valuation_measures/<str:ticker>',
+        views.get_valuation_measures,
+        name="get-valuation-measures"
+    ),
+    path(
+        'get_trending_tickers/',
+        views.get_trending_tickers,
+        name="get-trending-tickers"
+    ),
+    path(
+        'get_key_statistics/<str:ticker>',
+        views.get_key_statistics,
+        name="get-key-statistics"
+    ),
 ]

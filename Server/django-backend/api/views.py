@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .yf_fetch import *
 from datetime import date
+from .scraper import YahooScraper
+from yahooquery import Ticker
 
 @api_view(["GET"])
 def index(request):
@@ -113,6 +115,32 @@ def get_yesterday_and_today_closing_data(request):
         ticker_symbols = request.data.get("tickers")
         if not ticker_symbols: return Response({"error": "Missing required parameter: tickers"}, status=400)
         return Response(get_yesterday_and_today_closing_data_as_json(ticker_symbols))
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+    
+@api_view(["GET"])
+def get_valuation_measures(request, ticker):
+    try:
+        scraper = YahooScraper()
+        json_data = scraper.get_valuation_measures_json(ticker)
+        return Response(json.loads(json_data),status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+    
+@api_view(["GET"])
+def get_trending_tickers(request):
+    try:
+        scraper = YahooScraper()
+        json_data = scraper.get_trending_tickers_json()
+        return Response(json.loads(json_data),status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+    
+@api_view(["GET"])
+def get_key_statistics(request,ticker):
+    try:
+        json_data = get_key_statistics_json(ticker)
+        return Response((json_data),status=200)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
 
