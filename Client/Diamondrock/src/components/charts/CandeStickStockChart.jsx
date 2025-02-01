@@ -80,7 +80,7 @@ const CandleStickStockChart = (props) => {
         },
       },
       width: chartContainerRef.current.clientWidth,
-      height: 480,
+      height: props.isChartExpanded? 642:522,
     }
 
     const chart = createChart(chartContainerRef.current, chartOptions);
@@ -165,7 +165,7 @@ const CandleStickStockChart = (props) => {
       chart.remove();
       window.removeEventListener('resize', handleResize);
     };
-  }, [props.selectedPeriod]);
+  }, [props.selectedPeriod, props.isWatchlistPanelOpen, props.isChartExpanded]);
 
   return (
     <div className="relative">

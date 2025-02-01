@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { TrendingUp, ChevronUp } from 'lucide-react';
 import StockChart from './charts/CandeStickStockChart';
 
-function IndividualCompanyMap() {
+function IndividualCompanyMap(props) {
   const [displayedVolume, setDisplayedVolume] = useState('243.81');
   const [time, setTime] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
@@ -27,7 +27,7 @@ function IndividualCompanyMap() {
   return (
     <section className="h-full bg-white rounded-md border border-gray-200 flex flex-col relative">
       {/* Header */}
-        <div className="border-b border-gray-200" style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 1000 }}>
+        <div className="border-b border-gray-200" style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 100 }}>
           <div className="flex flex-wrap items-center justify-between gap-3">
             {/* Company Info */}
             <div className="flex items-center gap-2">
@@ -77,8 +77,8 @@ function IndividualCompanyMap() {
         </div>
           
         {/* Chart Component */}
-        <div className="flex-1 pt-11 px-1" style={{ paddingBottom: 0 }}>
-          <StockChart selectedPeriod={selectedPeriod} setDisplayedVolume={setDisplayedVolume}/>
+        <div className="flex-1 pt-2 px-1" style={{ paddingBottom: 0 }}>
+          <StockChart selectedPeriod={selectedPeriod} setDisplayedVolume={setDisplayedVolume} isWatchlistPanelOpen={props.isWatchlistPanelOpen} isChartExpanded={props.isChartExpanded}/>
         </div>
 
         {/* Time Period Selector */}
