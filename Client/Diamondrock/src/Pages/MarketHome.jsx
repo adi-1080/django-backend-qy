@@ -9,6 +9,10 @@ import { TrendingStocks } from "../sections/TrendingStocks";
 import { MarketEvents } from "../sections/MarketEvents";
 import { Deals } from "../sections/Deals";
 import { NewsAndUpdates } from "../sections/NewsAndUpdates";
+import { FIIDIIActivity } from "../sections/FIIDIIactivity";
+import { SectoralPerformance } from "../sections/SectoralPerformance";
+import { IPOInsights } from "../sections/IPOinsights";
+import { IPOListing } from "../sections/IPOlistings";
 
 function MarketHome() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
@@ -57,7 +61,7 @@ function MarketHome() {
                 <TrendingStocks />
               </div>
             </div>
-            
+
             <div className="p-4 mb-4 border-spacing-2 shadow-xl rounded-lg">
               <NewsAndUpdates />
             </div>
@@ -69,8 +73,23 @@ function MarketHome() {
                 <Deals />
               </div>
             </div>
+            <div className="grid  grid-cols-2 gap-4 mb-6">
+              <div className="border-spacing-2 shadow-xl rounded-lg">
+                <FIIDIIActivity />
+              </div>
+              <div className="border-spacing-2 shadow-xl rounded-lg">
+                <SectoralPerformance />
+              </div>
+            </div>
 
-            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border-spacing-2 shadow-xl rounded-lg">
+                <IPOInsights />
+              </div>
+              <div className="border-spacing-2 shadow-xl rounded-lg">
+                <IPOListing />
+              </div>
+            </div>
           </div>
         </main>
       </div>
