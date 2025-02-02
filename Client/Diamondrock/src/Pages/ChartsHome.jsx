@@ -3,7 +3,7 @@ import { ChevronRight, ChevronLeft, LineChart, LayoutGrid, Code,Sun } from "luci
 import React,{ useRef } from 'react';
 import CountrySelector from '../components/CountrySelector';
 import '../App.css';
-
+import MyLineChart from '../components/charts/LineChart';
 
 const ChartsHome = () => {
   const scrollRef = useRef(null);
@@ -270,9 +270,7 @@ const ChartsHome = () => {
         </div>
 
         {/* Placeholder for the Graph */}
-        <div className="mt-8 h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-          <p className="text-gray-400">Graph will go here</p>
-        </div>
+       <MyLineChart/>
 
         <div className='flex justify-between'>
           {/* Timeframe Selection */}
@@ -393,8 +391,8 @@ const ChartsHome = () => {
       {/* Stock gainers and loosers section*/ }
       <div className="max-w-6xl mx-auto p-6" style={{ backgroundColor: "white", width: "100vw"}}>
       <div className="flex">
-        <StockList title="Stock gainers>" stocks={gainers} isGainers={true} />
-        <StockList title="Stock losers>" stocks={losers} isGainers={false} />
+        <StockList title="Stock gainers" stocks={gainers} isGainers={true} />
+        <StockList title="Stock losers" stocks={losers} isGainers={false} />
       </div>
     </div>
       {/* Calender section*/ }
@@ -521,9 +519,7 @@ const ChartsHome = () => {
         </div>
 
         {/* Placeholder for the Graph */}
-        <div className="mt-8 h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-          <p className="text-gray-400">Graph will go here</p>
-        </div>
+        <MyLineChart/>
 
         <div className='flex justify-between'>
           {/* Timeframe Selection */}
@@ -557,6 +553,12 @@ const ChartsHome = () => {
         </div>
       
         {/* world biggest companies world largest employers*/ }
+        <div className="max-w-6xl my-12 mx-auto p-6" style={{ backgroundColor: "white", width: "100vw"}}>
+      <div className="flex">
+        <StockList title="Stock gainers" stocks={gainers} isGainers={true} />
+        <StockList title="Stock losers" stocks={losers} isGainers={false} />
+      </div>
+    </div>
         
     
       {/* Calender section world stocks*/ }
