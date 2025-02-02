@@ -3,7 +3,7 @@ import IndividualCompanyMap from '../components/IndividualCompanyMap';
 import WatchlistPanel from '../components/WatchlistPanel';
 import { Menu, Search, BarChart2, Grid, Bell, Undo, RotateCcw, Save, Eye, Plus, MoreHorizontal, Maximize2, Camera } from 'lucide-react';
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
-import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2 } from 'lucide-react';
+import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2, Rewind } from 'lucide-react';
 import '../superchartsFonts.css';
 
 function SuperChartsInnerPage() {
@@ -79,10 +79,10 @@ function SuperChartsInnerPage() {
           </button>
           <div 
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center space-x-1 px-2"
-            style={{ cursor: 'pointer' }}
+            className="flex items-center space-x-1 px-2 border-l border-r border-gray-200"
+            style={{ cursor: 'pointer', height: '1.5rem' }}
           >
-            <span>{selectedInterval}</span>
+            <span className="hover:bg-gray-100 p-2 rouned-lg">{selectedInterval}</span>
           </div>
           {/* Dropdown Menu */}
           {isOpen && (
@@ -113,16 +113,38 @@ function SuperChartsInnerPage() {
               ))}
             </div>
           )}
+          {/* Candlestick Icon */}
+          <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
+            <LineChart className="w-5 h-5 text-gray-700" />
+            <span className="text-sm text-gray-700">Indicators</span>
+          </div>
+
+          {/* Grid Icon */}
+          <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
+            <Grid className="w-5 h-5 text-gray-700" />
+          </div>
+
+          {/* Alert Icon */}
+          <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
+            <Bell className="w-5 h-5 text-gray-700" />
+            <span className="text-sm text-gray-700">Alert</span>
+          </div>
+
+          {/* Replay Icon */}
+          <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
+            <Rewind className="w-5 h-5 text-gray-700" />
+            <span className="text-sm text-gray-700">Replay</span>
+          </div>
         </div>
 
         {/* Center Section */}
-        <div className="flex items-center space-x-4">
+        {/* <div className="flex items-center space-x-4">
           <button className="p-2 hover:bg-gray-100 rounded-lg"><BarChart2 size={20} /></button>
           <button className="p-2 hover:bg-gray-100 rounded-lg"><Grid size={20} /></button>
           <button className="p-2 hover:bg-gray-100 rounded-lg"><Bell size={20} /></button>
           <button className="p-2 hover:bg-gray-100 rounded-lg"><Undo size={20} /></button>
           <button className="p-2 hover:bg-gray-100 rounded-lg"><RotateCcw size={20} /></button>
-        </div>
+        </div> */}
 
         {/* Right Section */}
         <div className="flex items-center space-x-2">
