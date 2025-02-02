@@ -3,6 +3,7 @@ import searchIcon from "../assets/icons/search.png";
 import coverImg from "../assets/images/cover.png";
 import upIcon from "../assets/icons/upmark.png";
 import graphIcon from "../assets/icons/graph.png";
+import NavMain from "../components/NavMain";
 
 const Home = () => {
   const [position, setPosition] = useState(0); // Track slide position
@@ -54,6 +55,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col bg-slate-100">
+    <NavMain/>
       
       <div className="flex justify-between items-center h-[100vh] px-28">
         <div className="flex flex-col gap-8 w-[50%]">
