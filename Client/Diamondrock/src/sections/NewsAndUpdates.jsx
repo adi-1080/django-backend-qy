@@ -42,11 +42,11 @@ export function NewsAndUpdates() {
           View All
         </a>
       </div>
-      <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2 scrollbar-hide">
-        {newsItems.map((item, index) => (
+      <div className="flex gap-4">
+        {newsItems.slice(0, 4).map((item, index) => (
           <div
             key={index}
-            className="min-w-[280px] max-w-[280px] bg-white border-spacing-2 shadow-xl rounded-lg flex-shrink-0"
+            className="w-[280px] bg-white border-spacing-2 shadow-xl rounded-lg"
           >
             <img
               src={item.image || "/placeholder.svg"}
