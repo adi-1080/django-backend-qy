@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import ChartsHome from './Pages/ChartsHome';
 import Home from './Pages/Home';
 import IndicesPage from './Pages/IndicesPage';
@@ -11,7 +11,7 @@ function App() {
     <div>
       <Routes>
         
-        <Route path="/" element={<div>Welcome to the App</div>} />
+        <Route path="/" element={<Navigate to='/home'/>} />
         <Route path="/home" element={<Home />} />
         <Route path="/innerChart" element={<SuperChartsInnerPage />} />
         <Route path="/chartHome" element={<ChartsHome />} />
