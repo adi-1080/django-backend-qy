@@ -3,7 +3,8 @@ import IndividualCompanyMap from '../components/IndividualCompanyMap';
 import WatchlistPanel from '../components/WatchlistPanel';
 import { Menu, Search, BarChart2, Grid, Bell, Undo, RotateCcw, Save, Eye, Plus, MoreHorizontal, Maximize2, Camera } from 'lucide-react';
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
-import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2, Rewind } from 'lucide-react';
+import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2, Rewind, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import '../superchartsFonts.css';
 
 function SuperChartsInnerPage() {
@@ -11,7 +12,28 @@ function SuperChartsInnerPage() {
   const [isChartExpanded, setIsChartExpanded] = useState(false); // State to track fullscreen mode 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState("5 minutes");
+  const [showScreener, setShowScreener] = useState(false);
 
+  const toggleScreener = () => {
+    setShowScreener(!showScreener);
+  };
+  const stockData = [
+    { symbol: 'AAPL', price: '150.23', change: '+1.2%', volume: '65.3M' },
+    { symbol: 'MSFT', price: '290.45', change: '-0.5%', volume: '42.1M' },
+    { symbol: 'GOOGL', price: '2,750.12', change: '+0.8%', volume: '1.5M' },
+    { symbol: 'AMZN', price: '3,120.76', change: '-1.2%', volume: '3.8M' },
+    { symbol: 'META', price: '330.12', change: '+2.1%', volume: '25.4M' },
+    { symbol: 'TSLA', price: '875.45', change: '-2.3%', volume: '30.2M' },
+    { symbol: 'NVDA', price: '450.23', change: '+3.2%', volume: '15.7M' },
+    { symbol: 'JPM', price: '145.67', change: '+0.5%', volume: '8.9M' },
+    { symbol: 'BAC', price: '35.89', change: '-0.7%', volume: '45.6M' },
+    { symbol: 'WMT', price: '142.34', change: '+0.3%', volume: '5.2M' },
+    { symbol: 'DIS', price: '178.90', change: '-1.5%', volume: '12.4M' },
+    { symbol: 'NFLX', price: '520.45', change: '+1.8%', volume: '4.3M' },
+    { symbol: 'PYPL', price: '245.67', change: '-0.9%', volume: '9.8M' },
+    { symbol: 'INTC', price: '55.34', change: '+0.4%', volume: '22.1M' },
+    { symbol: 'AMD', price: '92.45', change: '+2.5%', volume: '33.7M' },
+  ];
   const SidebarIcon = ({ icon }) => {
     return (
       <div className="flex items-center justify-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 cursor-pointer transition-all duration-200">
@@ -191,7 +213,7 @@ function SuperChartsInnerPage() {
         )}
 
         {/* Chart Section (Takes Full Screen when Expanded) */}
-        <main className={`flex-1 flex flex-col gap-1 bg-gray-200 ${isChartExpanded ? 'absolute inset-0' : ''}`}>
+        <main className={`flex-1 flex flex-col gap-0 bg-gray-200 ${isChartExpanded ? 'absolute inset-0' : ''}`}>
           <div className="flex-1 p-0 crafty-guy" style={{ height: isChartExpanded ? "100vh" : "90%" }}>
             <IndividualCompanyMap isWatchlistPanelOpen={isWatchlistPanelOpen} isChartExpanded={isChartExpanded} />
             {/* Restore Button in Fullscreen Mode */}
@@ -204,18 +226,51 @@ function SuperChartsInnerPage() {
               </button>
             )}
           </div>
-
+          <div className="h-[70px] bg-white border-b border-gray-200 px-4 flex items-center justify-between">
+        <div className="flex items-center gap-0">
+          <h2 className="text-lg font-semibold">Stock Screener</h2>
+          <button
+            onClick={toggleScreener}
+            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            {showScreener ? 
+              <ChevronUp className="w-5 h-5 text-gray-600" /> : 
+              <ChevronDown className="w-5 h-5 text-gray-600" />
+            }
+          </button>
+        </div>
+      </div>
           {/* Footer options (Hidden in Fullscreen) */}
-          {!isChartExpanded && (
-            <div className="bg-white px-4 flex items-center rounded-md" style={{ height: "10%" }}>
-              <div className="flex gap-4">
-                <button className="hover:bg-gray-100 p-2">Overview</button>
-                <button className="hover:bg-gray-100 p-2">Performance</button>
-                <button className="hover:bg-gray-100 p-2">Strategy Tester</button>
-                <button className="hover:bg-gray-100 p-2">Trading Panel</button>
-              </div>
-            </div>
-          )}
+          <div 
+        className={`bg-white transition-all duration-300 ${showScreener ? 'h-[calc(50vh-60px)]' : 'h-0'} overflow-hidden`}
+      >
+        <div className="h-full overflow-y-auto">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50 sticky top-0 z-10">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {stockData.map((stock, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
+                    <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                      {stock.change}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
         </main>
 
         {/* Right Sidebar (Hidden in Fullscreen) */}
