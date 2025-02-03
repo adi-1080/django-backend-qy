@@ -34,6 +34,15 @@ function SuperChartsInnerPage() {
     { symbol: 'INTC', price: '55.34', change: '+0.4%', volume: '22.1M' },
     { symbol: 'AMD', price: '92.45', change: '+2.5%', volume: '33.7M' },
   ];
+
+  const FooterAbsStyle = {
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    zIndex: '1000',
+    bottom: '0'
+  };
   const SidebarIcon = ({ icon }) => {
     return (
       <div className="flex items-center justify-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 cursor-pointer transition-all duration-200">
@@ -83,7 +92,7 @@ function SuperChartsInnerPage() {
 
 
   return (
-    <div className={`h-[100vh] flex flex-col gap-1 bg-gray-200 ${isChartExpanded ? 'fixed inset-0 bg-white z-50' : ''}`}>
+    <div className={`h-[100vh] flex flex-col gap-1 bg-gray-200 ${isChartExpanded? 'fixed inset-0 bg-white z-50' : ''}`}>
       {/* Header */}
       <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2 font-thin text-sm" style={{ height: "7%" }}>
         {/* Left Section */}
@@ -196,7 +205,7 @@ function SuperChartsInnerPage() {
         {!isChartExpanded && (
           <aside className="w-12 bg-white border-r border-white items-center flex flex-col py-2 rounded-tr-md">
             <SidebarIcon icon={<Move size={20} />} />
-            <SidebarIcon icon={<LineChart size={20} />} />
+            <SidebarIcon icon={<BarChart2 size={20} />} />
             <SidebarIcon icon={<BarChart3 size={20} />} />
             <SidebarIcon icon={<Network size={20} />} />
             <SidebarIcon icon={<Settings size={20} />} />
@@ -213,8 +222,8 @@ function SuperChartsInnerPage() {
         )}
 
         {/* Chart Section (Takes Full Screen when Expanded) */}
-        <main className={`flex-1 flex flex-col gap-0 bg-gray-200 ${isChartExpanded ? 'absolute inset-0' : ''}`}>
-          <div className="flex-1 p-0 crafty-guy" style={{ height: isChartExpanded ? "100vh" : "90%" }}>
+        <main className={`flex-1 flex flex-col gap-1 bg-gray-200 ${isChartExpanded ? 'absolute inset-0' : ''} relative`}>
+          <div className="flex-1 p-0" style={{ height: isChartExpanded ? "100vh" : "90%" }}>
             <IndividualCompanyMap isWatchlistPanelOpen={isWatchlistPanelOpen} isChartExpanded={isChartExpanded} />
             {/* Restore Button in Fullscreen Mode */}
             {isChartExpanded && (
@@ -226,51 +235,54 @@ function SuperChartsInnerPage() {
               </button>
             )}
           </div>
-          <div className="h-[70px] bg-white border-b border-gray-200 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-0">
-          <h2 className="text-lg font-semibold">Stock Screener</h2>
-          <button
-            onClick={toggleScreener}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            {showScreener ? 
-              <ChevronUp className="w-5 h-5 text-gray-600" /> : 
-              <ChevronDown className="w-5 h-5 text-gray-600" />
-            }
-          </button>
-        </div>
-      </div>
           {/* Footer options (Hidden in Fullscreen) */}
-          <div 
-        className={`bg-white transition-all duration-300 ${showScreener ? 'h-[calc(50vh-60px)]' : 'h-0'} overflow-hidden`}
-      >
-        <div className="h-full overflow-y-auto">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50 sticky top-0 z-10">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {stockData.map((stock, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
-                    <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                      {stock.change}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+          {!isChartExpanded && (
+            <div className="bg-white rounded-md" style={showScreener ? FooterAbsStyle : { height: "10%" }}>
+              <div className="flex px-4 items-center gap-4 border-b-2 border-gray-200">
+                <button className="hover:bg-gray-100 p-2 text-sm flex items-center gap-1" onClick={toggleScreener}>
+                  Stock Screener
+                  {showScreener ? 
+                    <ChevronUp className="w-5 h-5 text-gray-600" /> : 
+                    <ChevronDown className="w-5 h-5 text-gray-600" />
+                  }
+                </button>
+                <button className="hover:bg-gray-100 p-2 text-sm">Pine Editor</button>
+                <button className="hover:bg-gray-100 p-2 text-sm">Strategy Tester</button>
+                <button className="hover:bg-gray-100 p-2 text-sm">Replay Trading</button>
+                <button className="hover:bg-gray-100 p-2 text-sm">Trading Panel</button>
+              </div>
+              {showScreener && (
+                <div className="bg-white transition-all duration-300">
+                  <div className='flex flex-col gap-1 p-4' style={{ height: "100%" }}>
+                    <div className="flex items-center justify-between scroll-custom" style={{ maxHeight: "80vh", overflowY: "auto" }}>
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {stockData.map((stock, index) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
+                              <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                                {stock.change}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </main>
 
         {/* Right Sidebar (Hidden in Fullscreen) */}
