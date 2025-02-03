@@ -5,6 +5,8 @@ import IndicesPage from './Pages/IndicesPage';
 import MarketHome from './Pages/MarketHome';
 import NewsUpdates from './Pages/NewsUpdates/NewsUpdates';
 import SuperChartsInnerPage from './Pages/SuperChartsInnerPage';
+import Deals from './Pages/Deals/Deals';
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         <Route path="/marketHome" element={<MarketHome />} />
         <Route path="/indices" element={<IndicesPage />} />
         <Route path="/news/*" element={<NewsUpdates />} />
+        <Route path="/deals/*" element={<Deals />} />
       </Routes>
     </div>
   );
