@@ -199,15 +199,6 @@ function SuperChartsInnerPage() {
           </div>
         </div>
 
-        {/* Center Section */}
-        {/* <div className="flex items-center space-x-4">
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><BarChart2 size={20} /></button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Grid size={20} /></button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Bell size={20} /></button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Undo size={20} /></button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><RotateCcw size={20} /></button>
-        </div> */}
-
         {/* Right Section */}
         <div className="flex items-center space-x-2">
           <div className="flex items-center">
@@ -253,7 +244,7 @@ function SuperChartsInnerPage() {
         )}
 
         {/* Chart Section (Takes Full Screen when Expanded) */}
-        <main className={`flex-1 flex flex-col gap-1 bg-gray-200 ${isChartExpanded ? 'absolute inset-0' : ''} relative`}>
+        <main className={`flex-1 flex flex-col gap-1 bg-gray-200 ${isChartExpanded ? 'absolute inset-0 h-[100vh]' : ''} relative`}>
           <div className="flex-1 p-0" style={{ height: isChartExpanded ? "100vh" : "90%" }}>
             <IndividualCompanyMap isWatchlistPanelOpen={isWatchlistPanelOpen} isChartExpanded={isChartExpanded} />
             {/* Restore Button in Fullscreen Mode */}

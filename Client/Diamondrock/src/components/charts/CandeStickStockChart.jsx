@@ -79,8 +79,7 @@ const CandleStickStockChart = (props) => {
           style: 3,
         },
       },
-      width: chartContainerRef.current.clientWidth,
-      height: props.isChartExpanded? 642:522,
+      autoSize: true,
     }
 
     const chart = createChart(chartContainerRef.current, chartOptions);
@@ -168,8 +167,8 @@ const CandleStickStockChart = (props) => {
   }, [props.selectedPeriod, props.isWatchlistPanelOpen, props.isChartExpanded]);
 
   return (
-    <div className="relative">
-      <div ref={chartContainerRef} className="w-full" />
+    <div className="relative w-full h-full">
+      <div ref={chartContainerRef} className="w-full h-full" />
       {hoveredPrice && (
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-md shadow-sm border border-gray-200">
           <div className="text-sm font-medium">{hoveredPrice}</div>

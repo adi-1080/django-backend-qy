@@ -45,11 +45,6 @@ function IndividualCompanyMap(props) {
                 <span className="text-sm font-medium">+30.85 (+2.54%)</span>
               </div>
             </div>
-
-            {/* Badge */}
-            <span className="bg-pink-50 text-pink-600 text-xs px-2 py-1 rounded font-medium">
-              F
-            </span>
           </div>
 
           {/* Trading Actions */}
