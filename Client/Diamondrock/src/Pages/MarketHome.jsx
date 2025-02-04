@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
-import { IndicesCard } from "../sections/IndicesCard";
-import { NiftyCard } from "../sections/Niftycard";
 import { AdvancesDeclines } from "../sections/AdvancesDeclines";
-import { TrendingNow } from "../sections/TrendingNow";
-import { TrendingStocks } from "../sections/TrendingStocks";
-import { MarketEvents } from "../sections/MarketEvents";
 import { Deals } from "../sections/Deals";
-import { NewsAndUpdates } from "../sections/NewsAndUpdates";
 import { FIIDIIActivity } from "../sections/FIIDIIactivity";
-import { SectoralPerformance } from "../sections/SectoralPerformance";
+import { IndicesCard } from "../sections/IndicesCard";
 import { IPOInsights } from "../sections/IPOinsights";
 import { IPOListing } from "../sections/IPOlistings";
+import { MarketEvents } from "../sections/MarketEvents";
+import { NewsAndUpdates } from "../sections/NewsAndUpdates";
+import { NiftyCard } from "../sections/Niftycard";
+import { SectoralPerformance } from "../sections/SectoralPerformance";
+import { TrendingNow } from "../sections/TrendingNow";
+import { TrendingStocks } from "../sections/TrendingStocks";
 
 function MarketHome() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
