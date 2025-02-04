@@ -3,7 +3,8 @@ import React from "react";
 const newsItems = [
   {
     category: "Engineering - Construction",
-    image: "/placeholder.svg?height=200&width=300",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1fYUJTGP_7VICM1ogQKKOLASmTGkRWfXM3g&s?height=200&width=300",
     title:
       "Tarmat Limited has assigned Civil Works order to RDB Infrastructure & Power Limited for Taxiway 'M' Phase-1 on Airside at Chhatrapati Shivaji Maharaj International Airport, Mumbai",
   },
