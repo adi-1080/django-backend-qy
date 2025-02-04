@@ -40,7 +40,7 @@
         <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-2">
             <h2 className="text-md font-semibold flex items-center gap-2">
-                Watchlist <ChevronDown className="w-4 h-4" />
+                Watchlist
             </h2>
             <div className="flex items-center gap-2">
                 <button className="p-1 hover:bg-gray-100 rounded">
@@ -152,7 +152,7 @@
             onClick={() => setShowSeasonals(!showSeasonals)}
             className="w-full px-4 py-2 flex items-center justify-between bg-gray-50 hover:bg-gray-100"
             >
-            <span className="text-sm font-medium">Performance</span>
+            <span className="text-md font-bold">Performance</span>
             <div className="flex gap-2 items-center">
                 <button className="p-1 hover:bg-gray-200 rounded" onClick={(e) => e.stopPropagation()}>
                 {/* <BarChart2 className="w-4 h-4" /> */}

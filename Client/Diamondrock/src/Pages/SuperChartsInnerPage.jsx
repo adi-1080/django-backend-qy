@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import IndividualCompanyMap from '../components/IndividualCompanyMap';
 import WatchlistPanel from '../components/WatchlistPanel';
-import { Menu, Search, BarChart2, Grid, Bell, Undo, RotateCcw, Save, Eye, Plus, MoreHorizontal, Maximize2, Camera } from 'lucide-react';
+import SymbolSearchModal from '../components/modals/SymbolSearchModal';
+import AlertModal from '../components/modals/AlertModal';
+import { Menu, Search, Grid, Bell, Undo, RotateCcw, Save, Eye, CirclePlus, Plus, MoreHorizontal, Maximize2, Camera } from 'lucide-react';
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
 import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2, Rewind, ChevronDown, ChevronUp } from 'lucide-react';
-import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { AlarmClockPlus, SearchCode, Hexagon, LayoutGrid, ChartNoAxesCombined, ChartCandlestick, X } from 'lucide-react';
 import '../superchartsFonts.css';
 
 function SuperChartsInnerPage() {
+  const navigate = useNavigate();
   const [isWatchlistPanelOpen, setIsWatchlistPanelOpen] = useState(false);
   const [isChartExpanded, setIsChartExpanded] = useState(false); // State to track fullscreen mode 
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +19,8 @@ function SuperChartsInnerPage() {
   const [showScreener, setShowScreener] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [filter, setFilter] = useState("Stocks");
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isSymbolModalOpen, setIsSymbolModalOpen] = useState(false);
 
   const toggleScreener = () => setShowScreener(!showScreener);
 
@@ -104,20 +110,24 @@ function SuperChartsInnerPage() {
           {isMenuOpen && (
         <div className="absolute top-10 left-0 bg-white shadow-md rounded-lg p-2 w-40" style={{ zIndex: 1000 }}>
           <ul>
-            <li className="hover:bg-gray-100 p-2 rounded"><a href="/">Home</a></li>
-            <li className="hover:bg-gray-100 p-2 rounded"><a href="/marketHome">Market</a></li>
-            <li className="hover:bg-gray-100 p-2 rounded"><a href="/news/">News</a></li>
-            <li className="hover:bg-gray-100 p-2 rounded"><a href="/deals/">Deals</a></li>
-            <li className="hover:bg-gray-100 p-2 rounded"><a href="/indices">Indices</a></li>
-            <li className="hover:bg-gray-100 p-2 rounded"><a href="/chartHome">Charts</a></li>
+            <li className="hover:bg-gray-100 p-2 rounded" onClick={()=>navigate("/")}>Home</li>
+            <li className="hover:bg-gray-100 p-2 rounded" onClick={()=>navigate("/marketHome")}>Market</li>
+            <li className="hover:bg-gray-100 p-2 rounded" onClick={()=>navigate("/news/")}>News</li>
+            <li className="hover:bg-gray-100 p-2 rounded" onClick={()=>navigate("/deals/")}>Deals</li>
+            <li className="hover:bg-gray-100 p-2 rounded" onClick={()=>navigate("/indices")}>Indices</li>
+            <li className="hover:bg-gray-100 p-2 rounded" onClick={()=>navigate("/chartHome")}>Charts</li>
           </ul>
           </div> )}
-          <button className="flex items-center rounded-lg font-bold hover:bg-gray-100 px-2">
+          <button 
+            className="flex items-center rounded-lg font-bold hover:bg-gray-100"
+            onClick={() => setIsSymbolModalOpen(true)}
+          >
             <Search size={16} />
             RELIANCE
           </button>
-          <button className="border border-black hover:bg-gray-100 rounded-lg" style={{ borderRadius: '50%', padding: '0.1rem' }}>
-            <Plus size={14} />
+          {isSymbolModalOpen && <SymbolSearchModal closeModal={()=>setIsSymbolModalOpen(false)}/>}
+          <button className="hover:bg-gray-100 p-2 text-gray-700">
+            <CirclePlus size={18} />
           </button>
           <div 
             onClick={() => setIsOpen(!isOpen)}
@@ -157,20 +167,30 @@ function SuperChartsInnerPage() {
           )}
           {/* Candlestick Icon */}
           <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
-            <LineChart className="w-5 h-5 text-gray-700" />
+            <ChartCandlestick className="w-5 h-5 text-gray-700" />
+          </div>
+
+          {/* Indicators Icon */}
+          <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
+            <ChartNoAxesCombined className="w-5 h-5 text-gray-700" />
             <span className="text-sm text-gray-700">Indicators</span>
           </div>
 
           {/* Grid Icon */}
           <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
-            <Grid className="w-5 h-5 text-gray-700" />
+            <LayoutGrid className="w-5 h-5 text-gray-700" />
           </div>
 
           {/* Alert Icon */}
-          <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
-            <Bell className="w-5 h-5 text-gray-700" />
+          <div 
+            className="flex items-center space-x-2 border-r border-gray-200" 
+            onClick = {() => setIsAlertOpen(true)}
+            style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}
+          >
+            <AlarmClockPlus className="w-5 h-5 text-gray-700" />
             <span className="text-sm text-gray-700">Alert</span>
           </div>
+          {isAlertOpen && <AlertModal closeModal={() => setIsAlertOpen(false)}/>}
 
           {/* Replay Icon */}
           <div className="flex items-center space-x-2 border-r border-gray-200" style={{ cursor: 'pointer', height: '1.5rem', paddingRight: '0.5rem' }}>
@@ -196,16 +216,16 @@ function SuperChartsInnerPage() {
               <span>Save</span>
             </button>
           </div>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Camera size={20} /></button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Eye size={20} /></button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><MoreHorizontal size={20} /></button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg"><SearchCode className="w-5 h-5 text-gray-700" size={20} /></button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg"><Hexagon className="w-5 h-5 text-gray-700" size={20} /></button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg"><Camera className="w-5 h-5 text-gray-700" size={20} /></button>
           
           {/* Expand Button */}
           <button 
             className="p-2 hover:bg-gray-100 rounded-lg"
             onClick={() => setIsChartExpanded(!isChartExpanded)} // ⬅️ Toggle full screen
           >
-            <Maximize2 size={20} />
+            <Maximize2 className="w-5 h-5 text-gray-700"size={20} />
           </button>
         </div>
       </div>
@@ -214,9 +234,9 @@ function SuperChartsInnerPage() {
       <div className={`flex flex-1 gap-1 bg-gray-200 ${isChartExpanded ? 'fixed inset-0 z-50' : ''}`} style={{ height: "93%" }}>
         {/* Left Sidebar (Hidden in Fullscreen) */}
         {!isChartExpanded && (
-          <aside className="w-12 bg-white border-r border-white items-center flex flex-col py-2 rounded-tr-md">
+          <aside className="bg-white border-r border-white items-center flex flex-col py-2 rounded-tr-md" style={{ width: "fit-content" }}>
             <SidebarIcon icon={<Move size={20} />} />
-            <SidebarIcon icon={<BarChart2 size={20} />} />
+            <SidebarIcon icon={<LineChart size={20} />} />
             <SidebarIcon icon={<BarChart3 size={20} />} />
             <SidebarIcon icon={<Network size={20} />} />
             <SidebarIcon icon={<Settings size={20} />} />
@@ -249,48 +269,50 @@ function SuperChartsInnerPage() {
           {/* Footer options (Hidden in Fullscreen) */}
           {!isChartExpanded && (
             <div className="bg-white rounded-md" style={showScreener ? FooterAbsStyle : { height: "10%" }}>
-      <div className="flex px-4 py-3 items-center gap-4 border-b-2 border-gray-200">
-        <button className="hover:bg-gray-100 p-2 text-xl flex items-center gap-1" onClick={toggleScreener}>
+      <div className="flex px-4 py-2 items-center gap-4 border-b-2 border-gray-200">
+        <button className="hover:bg-gray-100 p-2 text-md font-bold flex items-center gap-1" onClick={toggleScreener}>
           Stock Screener
           {showScreener ? <ChevronUp className="w-5 h-5 text-gray-600" /> : <ChevronDown className="w-5 h-5 text-gray-600" />}
         </button>
       </div>
 
       {showScreener && (
-        <div className="p-4">
-          <div className="flex gap-2 mb-4">
+        <div>
+          <div className="flex gap-2 mb-4 border-b-2 border-gray-200 p-2 px-8">
             {Object.keys(stockData).map((category) => (
               <button
                 key={category}
-                className={`px-4 py-2 rounded-xl text-sm font-medium ${filter === category ? "bg-gray-600 text-white" : "bg-gray-200 text-gray-700"}`}
+                className={`px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-400 hover:text-white ${filter === category ? "bg-blue-100 text-blue-600" : "bg-gray-200 text-gray-700"}`}
                 onClick={() => setFilter(category)}
               >
                 {category}
               </button>
             ))}
           </div>
-
-          <div className="overflow-y-auto max-h-[60vh]">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50 sticky top-0 z-10">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {stockData[filter].map((stock, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
-                    <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}>{stock.change}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
+          
+          <div className="p-4">
+            <div className="overflow-y-auto max-h-[60vh]">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50 sticky top-0 z-10">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {stockData[filter].map((stock, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
+                      <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}>{stock.change}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
@@ -304,7 +326,7 @@ function SuperChartsInnerPage() {
             <div style={{ ...(isWatchlistPanelOpen ? { display: 'none' } : {}) }}>
               <WatchlistPanel />
             </div>
-            <aside className={`w-12 bg-white border-l-2 flex-col ${isWatchlistPanelOpen ? 'rounded-tl':''} items-center py-2`}>
+            <aside className={`bg-white border-l-2 flex-col ${isWatchlistPanelOpen ? 'rounded-tl':''} items-center py-2`} style={{ width: "fit-content" }}>
               <SidebarIcon icon={<SquareMenu size={30} onClick={() => setIsWatchlistPanelOpen(!isWatchlistPanelOpen)} />} />
               <SidebarIcon icon={<Clock size={20} />} />
               <SidebarIcon icon={<Layers size={20} />} />
