@@ -53,7 +53,7 @@ function IndividualCompanyMap(props) {
           </div>
 
           {/* Trading Actions */}
-          <div className="mt-1 flex gap-4">
+          {/* <div className="mt-1 flex gap-4">
             <button 
               className="group relative px-3 py-1 bg-white text-red-600 border border-red-600 rounded-md hover:bg-red-50 transition-colors"
               aria-label="Sell stock"
@@ -69,7 +69,7 @@ function IndividualCompanyMap(props) {
               <div className="text-xs">BUY</div>
             </button>
           </div>
-            
+             */}
           {/* Volume */}
           <div className="mt-1 text-sm text-gray-600">
             Vol <span className="text-emerald-600">{displayedVolume}M</span>

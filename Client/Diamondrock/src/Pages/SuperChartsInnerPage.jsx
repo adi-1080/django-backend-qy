@@ -13,27 +13,27 @@ function SuperChartsInnerPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState("5 minutes");
   const [showScreener, setShowScreener] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [filter, setFilter] = useState("Stocks");
 
-  const toggleScreener = () => {
-    setShowScreener(!showScreener);
+  const toggleScreener = () => setShowScreener(!showScreener);
+
+ 
+  const stockData = {
+    Stocks: [
+      { symbol: "AAPL", price: "150.23", change: "+1.2%", volume: "65.3M" },
+      { symbol: "MSFT", price: "290.45", change: "-0.5%", volume: "42.1M" },
+      { symbol: "GOOGL", price: "2,750.12", change: "+0.8%", volume: "1.5M" },
+    ],
+    Indices: [
+      { symbol: "S&P 500", price: "4,500.12", change: "+0.6%", volume: "N/A" },
+      { symbol: "NASDAQ", price: "14,750.34", change: "-0.4%", volume: "N/A" },
+    ],
+    Options: [
+      { symbol: "AAPL 150C", price: "5.12", change: "+2.0%", volume: "18.3K" },
+      { symbol: "TSLA 900P", price: "12.45", change: "-1.8%", volume: "5.6K" },
+    ],
   };
-  const stockData = [
-    { symbol: 'AAPL', price: '150.23', change: '+1.2%', volume: '65.3M' },
-    { symbol: 'MSFT', price: '290.45', change: '-0.5%', volume: '42.1M' },
-    { symbol: 'GOOGL', price: '2,750.12', change: '+0.8%', volume: '1.5M' },
-    { symbol: 'AMZN', price: '3,120.76', change: '-1.2%', volume: '3.8M' },
-    { symbol: 'META', price: '330.12', change: '+2.1%', volume: '25.4M' },
-    { symbol: 'TSLA', price: '875.45', change: '-2.3%', volume: '30.2M' },
-    { symbol: 'NVDA', price: '450.23', change: '+3.2%', volume: '15.7M' },
-    { symbol: 'JPM', price: '145.67', change: '+0.5%', volume: '8.9M' },
-    { symbol: 'BAC', price: '35.89', change: '-0.7%', volume: '45.6M' },
-    { symbol: 'WMT', price: '142.34', change: '+0.3%', volume: '5.2M' },
-    { symbol: 'DIS', price: '178.90', change: '-1.5%', volume: '12.4M' },
-    { symbol: 'NFLX', price: '520.45', change: '+1.8%', volume: '4.3M' },
-    { symbol: 'PYPL', price: '245.67', change: '-0.9%', volume: '9.8M' },
-    { symbol: 'INTC', price: '55.34', change: '+0.4%', volume: '22.1M' },
-    { symbol: 'AMD', price: '92.45', change: '+2.5%', volume: '33.7M' },
-  ];
 
   const FooterAbsStyle = {
     position: 'absolute',
@@ -97,10 +97,21 @@ function SuperChartsInnerPage() {
       <div className="flex items-center justify-between w-full bg-white border-b border-gray-200 px-2 font-thin text-sm" style={{ height: "7%" }}>
         {/* Left Section */}
         <div className="flex items-center space-x-2">
-          <button className="relative p-1 hover:bg-gray-100 rounded-lg">
+          <button className="relative p-1 hover:bg-gray-100 rounded-lg"   onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Menu size={25} />
             {/* <span className="absolute top-0 -right-1 bg-red-500 border-2 border-white text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span> */}
           </button>
+          {isMenuOpen && (
+        <div className="absolute top-10 left-0 bg-white shadow-md rounded-lg p-2 w-40" style={{ zIndex: 1000 }}>
+          <ul>
+            <li className="hover:bg-gray-100 p-2 rounded"><a href="/">Home</a></li>
+            <li className="hover:bg-gray-100 p-2 rounded"><a href="/marketHome">Market</a></li>
+            <li className="hover:bg-gray-100 p-2 rounded"><a href="/news/">News</a></li>
+            <li className="hover:bg-gray-100 p-2 rounded"><a href="/deals/">Deals</a></li>
+            <li className="hover:bg-gray-100 p-2 rounded"><a href="/indices">Indices</a></li>
+            <li className="hover:bg-gray-100 p-2 rounded"><a href="/chartHome">Charts</a></li>
+          </ul>
+          </div> )}
           <button className="flex items-center rounded-lg font-bold hover:bg-gray-100 px-2">
             <Search size={16} />
             RELIANCE
@@ -238,50 +249,52 @@ function SuperChartsInnerPage() {
           {/* Footer options (Hidden in Fullscreen) */}
           {!isChartExpanded && (
             <div className="bg-white rounded-md" style={showScreener ? FooterAbsStyle : { height: "10%" }}>
-              <div className="flex px-4 items-center gap-4 border-b-2 border-gray-200">
-                <button className="hover:bg-gray-100 p-2 text-sm flex items-center gap-1" onClick={toggleScreener}>
-                  Stock Screener
-                  {showScreener ? 
-                    <ChevronUp className="w-5 h-5 text-gray-600" /> : 
-                    <ChevronDown className="w-5 h-5 text-gray-600" />
-                  }
-                </button>
-                <button className="hover:bg-gray-100 p-2 text-sm">Pine Editor</button>
-                <button className="hover:bg-gray-100 p-2 text-sm">Strategy Tester</button>
-                <button className="hover:bg-gray-100 p-2 text-sm">Replay Trading</button>
-                <button className="hover:bg-gray-100 p-2 text-sm">Trading Panel</button>
-              </div>
-              {showScreener && (
-                <div className="bg-white transition-all duration-300">
-                  <div className='flex flex-col gap-1 p-4' style={{ height: "100%" }}>
-                    <div className="flex items-center justify-between scroll-custom" style={{ maxHeight: "80vh", overflowY: "auto" }}>
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50 sticky top-0 z-10">
-                          <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {stockData.map((stock, index) => (
-                            <tr key={index} className="hover:bg-gray-50">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
-                              <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                                {stock.change}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+      <div className="flex px-4 py-3 items-center gap-4 border-b-2 border-gray-200">
+        <button className="hover:bg-gray-100 p-2 text-xl flex items-center gap-1" onClick={toggleScreener}>
+          Stock Screener
+          {showScreener ? <ChevronUp className="w-5 h-5 text-gray-600" /> : <ChevronDown className="w-5 h-5 text-gray-600" />}
+        </button>
+      </div>
+
+      {showScreener && (
+        <div className="p-4">
+          <div className="flex gap-2 mb-4">
+            {Object.keys(stockData).map((category) => (
+              <button
+                key={category}
+                className={`px-4 py-2 rounded-xl text-sm font-medium ${filter === category ? "bg-gray-600 text-white" : "bg-gray-200 text-gray-700"}`}
+                onClick={() => setFilter(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          <div className="overflow-y-auto max-h-[60vh]">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50 sticky top-0 z-10">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {stockData[filter].map((stock, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${stock.price}</td>
+                    <td className={`px-6 py-4 whitespace-nowrap text-sm ${stock.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}>{stock.change}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.volume}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
           )}
         </main>
 
