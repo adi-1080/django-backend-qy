@@ -4,8 +4,75 @@ import numpy as np
 import json
 from datetime import datetime, date, timedelta
 from yahooquery import Ticker
+import yahooquery as yq
+from yahooquery import Screener
+import pytz
+
+s = Screener()
 
 # Helper Functions
+def convert_timestamps_to_ist(data):
+    """
+    Recursively converts all timestamps in the given data structure to IST (UTC+5:30).
+    Handles UNIX timestamps (integers), ISO date strings, and nested dictionaries/lists.
+    """
+    et = pytz.timezone("US/Eastern")  # Eastern Time (Yahoo Finance default)
+    ist = pytz.timezone("Asia/Kolkata")  # Indian Standard Time (UTC+5:30)
+
+    def convert_value(value):
+        """Helper function to process each value."""
+        if isinstance(value, (int, float)) and len(str(int(value))) == 10:
+            # Convert UNIX timestamp (10-digit integer) to IST
+            dt = datetime.fromtimestamp(value, tz=pytz.UTC)  # Convert to UTC
+            dt_ist = dt.astimezone(ist)  # Convert to IST
+            return dt_ist.strftime("%Y-%m-%d %H:%M:%S")
+
+        if isinstance(value, str):
+            try:
+                # Convert date string assuming it's in ET
+                dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                dt = et.localize(dt)  # Set ET timezone
+                dt_ist = dt.astimezone(ist)  # Convert to IST
+                return dt_ist.strftime("%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                pass  # Return original if not a valid timestamp
+
+        return value  # Return unchanged if not a timestamp
+
+    if isinstance(data, dict):
+        return {key: convert_timestamps_to_ist(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_timestamps_to_ist(item) for item in data]
+    else:
+        return convert_value(data)
+    
+def clean_nan_values(data):
+    """Helper function to clean NaN values from dictionary/list"""
+    if isinstance(data, dict):
+        return {k: clean_nan_values(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [clean_nan_values(x) for x in data]
+    elif isinstance(data, (float, np.float64)) and np.isnan(data):
+        return None
+    elif pd.isna(data):
+        return None
+    return data
+
+def convert_to_json_safe(data):
+    """Helper function to convert various data types to JSON-safe format"""
+    if isinstance(data, pd.DataFrame):
+        if data is not None and not data.empty:
+            return data.to_dict('records')
+        return []
+    elif isinstance(data, pd.Series):
+        return data.to_dict()
+    elif isinstance(data, dict):
+        return {str(k): convert_to_json_safe(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [convert_to_json_safe(item) for item in data]
+    elif pd.isna(data):  # Handle NaN/None values
+        return None
+    return data
 
 def convert_timestamp_to_string(timestamp):
     return timestamp.strftime("%Y-%m-%d %H:%M:%S") if isinstance(timestamp, (datetime, pd.Timestamp)) else str(timestamp)
@@ -96,7 +163,7 @@ def get_cash_flow_as_json(ticker_symbol, **kwargs):
         "quarterly": quarterly_cf_cleaned,
     }
 
-def get_historical_data_as_json(ticker_symbol, **kwargs):
+def get_historical_data_as_json(ticker_symbol, **kwargs):   
     historical_data = yf.Ticker(ticker_symbol).history(**kwargs)
     # handle pandas dataframe
     if isinstance(historical_data, pd.DataFrame):
@@ -389,9 +456,6 @@ def get_yesterday_and_today_closing_data_as_json(ticker_symbols):
     }, cls=DateEncoder))  # Ensure JSON serialization
 
 def get_key_statistics_json(ticker):
-    # Define the stock ticker
-    ticker = "AAPL"
-
     # Create a Ticker object
     stock = Ticker(ticker)
 
@@ -401,3 +465,257 @@ def get_key_statistics_json(ticker):
     key_stats_json = json.dumps(key_stats, indent=4)
 
     return json.loads(key_stats_json)
+
+def search_json(query, first_quote):
+    try:
+        return yq.search(query, first_quote=first_quote)
+    except Exception as e:
+        return {'error': str(e)}
+
+## Additional DATA
+def get_list_of_currencies_json():
+    data = json.dumps(yq.get_currencies(),indent=4)
+    return json.loads(data)
+
+def get_exchanges_json():
+    exchanges = yq.get_exchanges()
+    exchanges = exchanges.dropna()
+    data = exchanges.to_dict(orient='records')  # Convert DataFrame to list of dictionaries
+    return data
+
+def get_market_summary_json(country):
+    data = json.dumps(yq.get_market_summary(country=country),indent=4)
+    return json.loads(data)
+
+def get_list_of_trending_stocks_countrywise_json(country):
+    data = json.dumps(yq.get_trending(country=country))
+    return json.loads(data)
+
+def get_asset_profile_json(symbols):
+    tickers = Ticker(symbols)
+    data = json.dumps(tickers.asset_profile,indent=4)
+    
+    return json.loads(data)
+
+def get_calendar_events_json(ticker):
+    sym = Ticker(ticker)
+    data = sym.calendar_events
+    converted_data = convert_timestamps_to_ist(data)
+    return converted_data
+
+def get_company_officers_json(ticker):
+    sym = Ticker(ticker)
+    officers = sym.company_officers
+    data = officers.to_dict(orient="records")
+    print(data)
+    cleanded_data = clean_nan_values(data)
+    return cleanded_data
+
+def get_earning_history_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.earning_history).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_earnings_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.earnings),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_earnings_trend_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.earnings_trend),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_esg_scores_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.esg_scores),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_financial_data_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.financial_data),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_bond_holdings_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_bond_holdings),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_bond_ratings_json(tickers):
+    sym = Ticker(tickers)
+    # Check if 'fund_bond_ratings' is available
+    if sym.fund_bond_ratings is not None:
+        data = json.dumps(sym.fund_bond_ratings.to_dict(orient="records"), indent=4)
+        return json.loads(data)
+    return None  # Return None if no data is found
+
+def get_fund_equity_holdings_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_equity_holdings),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_holding_info_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_holding_info),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_ownership_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_ownership).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_performance_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_performance),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_profile_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_profile),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_sector_weightings_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_sector_weightings).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_fund_top_holdings_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.fund_top_holdings).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_grading_history_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.grading_history).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_index_trend_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.index_trend),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_industry_trend_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.industry_trend),indent=4)
+    print(data)
+    return json.loads(data)
+
+### dictionary has NaN values hence json.loads() not working (fixed later)
+def get_insider_holders_json(ticker):
+    sym = Ticker(ticker)
+    data = (sym.insider_holders).to_dict(orient="records")
+    print(type(data))
+    return data
+
+### json.loads() not working NaN values problem, (fixed later)
+def get_insider_transactions_json(ticker):
+    sym = Ticker(ticker)
+    data = sym.insider_transactions
+    data_dict = data.apply(lambda row: {
+        col: (None if pd.isna(val) or (isinstance(val, float) and (np.isnan(val) or np.isinf(val))) else val)
+        for col, val in row.items()
+    }, axis=1).tolist()
+    
+    # Filter out rows with all None values
+    data_dict = [row for row in data_dict if any(val is not None for val in row.values())]
+    
+    return data_dict        
+
+def get_institution_ownership_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.institution_ownership).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_major_holders_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.major_holders),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_page_views_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.page_views),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_price_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.price),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_quote_type_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.quote_type),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_recommendation_trend_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.recommendation_trend).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_sec_filings_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.sec_filings).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_share_purchase_activity_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.share_purchase_activity),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_summary_detail_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.summary_detail),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_summary_profile_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.summary_profile),indent=4)
+    print(data)
+    return json.loads(data)
+
+### Most importatn APIs
+def get_available_screeners_json():
+    data = s.available_screeners
+    print(type(data))
+    return json.loads(json.dumps(data,indent=7))
+
+def get_corporate_events_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps((sym.corporate_events).to_dict(orient="records"),indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_recommendations_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps(sym.recommendations,indent=4)
+    print(data)
+    return json.loads(data)
+
+def get_technical_insights_json(ticker):
+    sym = Ticker(ticker)
+    data = json.dumps(sym.technical_insights,indent=4)
+    print(data)
+    return json.loads(data)
