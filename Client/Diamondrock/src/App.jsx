@@ -6,8 +6,8 @@ import MarketHome from './Pages/MarketHome';
 import NewsUpdates from './Pages/NewsUpdates/NewsUpdates';
 import SuperChartsInnerPage from './Pages/SuperChartsInnerPage';
 import Deals from './Pages/Deals/Deals';
-import Sectors from './Pages/Sectors';
-
+import SectorsOuter from './Pages/Sectors/SectorsOuter';
+import SectorsInner from "./Pages/Sectors/SectorsInner"
 function App() {
   return (
     <div>
@@ -21,7 +21,9 @@ function App() {
         <Route path="/indices" element={<IndicesPage />} />
         <Route path="/news/*" element={<NewsUpdates />} />
         <Route path="/deals/*" element={<Deals />} />
-        <Route path="/sectors" element={<Sectors />} />
+        <Route path="/sector-overview" element={<SectorsOuter />} />
+        <Route path="/sector/*" element={<SectorsInner />} />
+
       </Routes>
     </div>
   );
