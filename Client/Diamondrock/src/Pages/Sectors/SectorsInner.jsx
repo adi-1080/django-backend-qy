@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { ArrowLeft, Share2 } from "lucide-react"
 import SectorNews from "./SectorsNews"
+import SectorsGainers from "./SectorsGainers"
+import SectorsLosers from "./SectorsLosers"
 
 export default function SectorsInner() {
     const [activeMainTab, setActiveMainTab] = useState("news")
@@ -38,7 +40,8 @@ export default function SectorsInner() {
 
             <div className="p-4">
                 {activeMainTab === "news" && <SectorNews />}
-                
+                {activeMainTab === "gainers" && <SectorsGainers />}
+                {activeMainTab === "losers" && <SectorsLosers />}
             </div>
         </div>
     )

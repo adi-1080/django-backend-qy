@@ -23,7 +23,7 @@ function App() {
         <Route path="/deals/*" element={<Deals />} />
         <Route path="/sector-overview" element={<SectorsOuter />} />
         <Route path="/sector/*" element={<SectorsInner />} />
-
+      
       </Routes>
     </div>
   );
