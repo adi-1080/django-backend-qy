@@ -222,6 +222,7 @@ const ChartsHome = () => {
       <div className='flex justify-center items-center h-[65vh] pb-20'>
         <CountrySelector/>
       </div>
+      {/* Indices and graphs  */}
       <div className="p-6 bg-white">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
@@ -303,7 +304,7 @@ const ChartsHome = () => {
           </div>
         </div>
       </div>
-
+      {/* World indices  */}
       <div className='p-6 bg-white'>
         <div className="flex items-center gap-2 mb-4">
           <h1 className="text-2xl font-semibold">World Indices</h1>
@@ -389,14 +390,14 @@ const ChartsHome = () => {
         </div>
       </div>
       {/* Stock gainers and loosers section*/ }
-      {/* Stock gainers and losers section */}
+     
 <div className="w-full p-6 bg-white">
   <div className="flex flex-col md:flex-row gap-6">
     <StockList title="Stock gainers" stocks={gainers} isGainers={true} />
     <StockList title="Stock losers" stocks={losers} isGainers={false} />
   </div>
 </div>
-      {/* Calender section*/ }
+      {/* Calender section below stock gainers etc*/ }
       <div className="p-8 bg-white">
       <h2 className="text-2xl font-bold mb-6">Earnings Calendar</h2>
       
@@ -471,7 +472,8 @@ const ChartsHome = () => {
         </a>
       </div>
     </div>
-    {/* world stocks*/ }
+
+    {/* world stocks , worlds biggest companies , worlds top employers , earnings calendar , crypto, futures and commodities*/ }
     <div className="p-6 bg-white">
         {/* World stocks Header */}
         <div className="flex items-center gap-2 mb-4">
@@ -554,7 +556,7 @@ const ChartsHome = () => {
         </div>
       
         {/* world biggest companies world largest employers*/ }
-       {/* Stock gainers and losers section */}
+       
 <div className="w-full p-6 bg-white">
   <div className="flex flex-col md:flex-row gap-6">
   <StockList title="World's Biggest Companies" stocks={gainers} isGainers={true} />
@@ -637,8 +639,307 @@ const ChartsHome = () => {
           <ChevronRight className="w-4 h-4" />
         </a>
       </div>
+
+      {/* Crypto */}
+      
+      <div className="flex items-center gap-2 mb-4 my-8">
+          <h1 className="text-3xl font-bold">Crypto</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+
+        {/* Crypto Cards with Scrollable Feature */}
+        <div className="relative">
+          <button 
+            onClick={() => scroll('left')} 
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronLeft className="text-gray-700" />
+          </button>
+
+          <div 
+            ref={scrollRef} 
+            className="flex gap-20 overflow-x-auto scroll-smooth no-scrollbar"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {indices.map((index) => (
+              <div key={index.id} className="min-w-[300px] flex items-center hover:bg-gray-100 rounded-[100px] py-3 text-sm px-2 mb-3">
+                <div className={`w-10 h-10 flex items-center justify-center rounded-full text-white ${index.color}`}>
+                  {index.id}
+                </div>
+                <div className="ml-4">
+                  <p className="text-gray-700 font-medium">{index.name}</p>
+                  <p className="text-black text-lg font-bold">
+                    {index.value} <span className="text-xs text-gray-400">USD</span>
+                  </p>
+                </div>
+                <p className={`ml-4 text-sm ${index.change.includes('-') ? 'text-red-500' : 'text-green-500'}`}>
+                  {index.change}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <button 
+            onClick={() => scroll('right')} 
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronRight className="text-gray-700" />
+          </button>
+        </div>
+
+        {/* Placeholder for the Graph */}
+        <MyLineChart/>
+
+        <div className='flex justify-between'>
+          {/* Timeframe Selection */}
+          <div className="mt-6 flex gap-4">
+            {["1D", "1M", "3M", "1Y", "5Y", "All"].map((time) => (
+              <button
+                key={time}
+                className={`px-4 py-2 rounded-md text-sm transition-colors ${
+                  time === "1D"
+                    ? "bg-gray-200 text-black font-bold"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+
+          {/* Bottom Action Buttons */}
+          <div className="mt-4 flex gap-4">
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <Code className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LineChart className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LayoutGrid className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
+      
+        {/* Crypto Market Cap Ranking and TVL ranking  */}
+       
+<div className="w-full p-6 bg-white my-8">
+  <div className="flex flex-col md:flex-row gap-6">
+  <StockList title="Crypto Market Cap Ranking" stocks={gainers} isGainers={true} />
+        <StockList title="TVL Ranking" stocks={losers} isGainers={false} />
+  </div>
+</div>
+{/* Crypto Gainers and Losers  */}
+<div className="w-full p-6 bg-white my-8">
+  <div className="flex flex-col md:flex-row gap-6">
+  <StockList title="Crypto Gainers" stocks={gainers} isGainers={true} />
+        <StockList title="Crypto Losers" stocks={losers} isGainers={false} />
+  </div>
+</div>
+
+      {/* Futures and commodities , energy futures and agricultural futures, metal futures and index futures */}
+      <div>
+          <div className="p-6 bg-white">
+        {/* World stocks Header */}
+        <div className="flex items-center gap-2 mb-4 my-8">
+          <h1 className="text-3xl font-bold">Futures and Commodities</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+
+        {/* world stocks Cards with Scrollable Feature */}
+        <div className="relative">
+          <button 
+            onClick={() => scroll('left')} 
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronLeft className="text-gray-700" />
+          </button>
+
+          <div 
+            ref={scrollRef} 
+            className="flex gap-20 overflow-x-auto scroll-smooth no-scrollbar"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {indices.map((index) => (
+              <div key={index.id} className="min-w-[300px] flex items-center hover:bg-gray-100 rounded-[100px] py-3 text-sm px-2 mb-3">
+                <div className={`w-10 h-10 flex items-center justify-center rounded-full text-white ${index.color}`}>
+                  {index.id}
+                </div>
+                <div className="ml-4">
+                  <p className="text-gray-700 font-medium">{index.name}</p>
+                  <p className="text-black text-lg font-bold">
+                    {index.value} <span className="text-xs text-gray-400">USD</span>
+                  </p>
+                </div>
+                <p className={`ml-4 text-sm ${index.change.includes('-') ? 'text-red-500' : 'text-green-500'}`}>
+                  {index.change}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <button 
+            onClick={() => scroll('right')} 
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronRight className="text-gray-700" />
+          </button>
+        </div>
+
+        {/* Placeholder for the Graph */}
+        <MyLineChart/>
+
+        <div className='flex justify-between'>
+          {/* Timeframe Selection */}
+          <div className="mt-6 flex gap-4">
+            {["1D", "1M", "3M", "1Y", "5Y", "All"].map((time) => (
+              <button
+                key={time}
+                className={`px-4 py-2 rounded-md text-sm transition-colors ${
+                  time === "1D"
+                    ? "bg-gray-200 text-black font-bold"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+
+          {/* Bottom Action Buttons */}
+          <div className="mt-4 flex gap-4">
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <Code className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LineChart className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LayoutGrid className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
+      
+        {/* Energy futures and Agricultural futures */}
+<div className="w-full p-6 bg-white my-8">
+  <div className="flex flex-col md:flex-row gap-6">
+  <StockList title="Energy Futures" stocks={gainers} isGainers={true} />
+        <StockList title="Agricultural Futures" stocks={losers} isGainers={false} />
+  </div>
+</div>
+<div className="w-full p-6 bg-white my-8">
+  <div className="flex flex-col md:flex-row gap-6">
+  <StockList title="Metal Futures" stocks={gainers} isGainers={true} />
+        <StockList title="Index Futures" stocks={losers} isGainers={false} />
+  </div>
+</div>
+</div>
+    </div>
+
+    {/* Forex and Currencies  */}
+    <div>
+      <div className="flex items-center gap-2 mb-4 my-8">
+          <h1 className="text-3xl font-bold">Forex and Currencies</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+
+        {/* Crypto Cards with Scrollable Feature */}
+        <div className="relative">
+          <button 
+            onClick={() => scroll('left')} 
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronLeft className="text-gray-700" />
+          </button>
+
+          <div 
+            ref={scrollRef} 
+            className="flex gap-20 overflow-x-auto scroll-smooth no-scrollbar"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {indices.map((index) => (
+              <div key={index.id} className="min-w-[300px] flex items-center hover:bg-gray-100 rounded-[100px] py-3 text-sm px-2 mb-3">
+                <div className={`w-10 h-10 flex items-center justify-center rounded-full text-white ${index.color}`}>
+                  {index.id}
+                </div>
+                <div className="ml-4">
+                  <p className="text-gray-700 font-medium">{index.name}</p>
+                  <p className="text-black text-lg font-bold">
+                    {index.value} <span className="text-xs text-gray-400">USD</span>
+                  </p>
+                </div>
+                <p className={`ml-4 text-sm ${index.change.includes('-') ? 'text-red-500' : 'text-green-500'}`}>
+                  {index.change}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <button 
+            onClick={() => scroll('right')} 
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md z-10"
+          >
+            <ChevronRight className="text-gray-700" />
+          </button>
+        </div>
+
+        {/* Placeholder for the Graph */}
+        <MyLineChart/>
+
+        <div className='flex justify-between'>
+          {/* Timeframe Selection */}
+          <div className="mt-6 flex gap-4">
+            {["1D", "1M", "3M", "1Y", "5Y", "All"].map((time) => (
+              <button
+                key={time}
+                className={`px-4 py-2 rounded-md text-sm transition-colors ${
+                  time === "1D"
+                    ? "bg-gray-200 text-black font-bold"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+
+          {/* Bottom Action Buttons */}
+          <div className="mt-4 flex gap-4">
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <Code className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LineChart className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 bg-gray-100 rounded-lg">
+              <LayoutGrid className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
+      
+        {/* Majors and Currency Indices  */}
+       
+<div className="w-full p-6 bg-white my-8">
+  <div className="flex flex-col md:flex-row gap-6">
+  <StockList title="Majors" stocks={gainers} isGainers={true} />
+        <StockList title="Currency Indices" stocks={losers} isGainers={false} />
+  </div>
+</div>
+    </div>
+    
+    {/* Government Bonds  */}
+    <div className="flex items-center gap-2 mb-4 my-8">
+          <h1 className="text-3xl font-bold">Government Bonds</h1>
+          <ChevronRight className="h-6 w-6 text-gray-500" />
+        </div>
+
+    
+
+
       </div>
       </div>
+
+
       
     </div>
   );
