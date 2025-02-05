@@ -8,6 +8,7 @@ import SuperChartsInnerPage from './Pages/SuperChartsInnerPage';
 import Deals from './Pages/Deals/Deals';
 import SectorsOuter from './Pages/Sectors/SectorsOuter';
 import SectorsInner from "./Pages/Sectors/SectorsInner"
+import StockDetails from './Pages/searchIndustries/StockDetails';
 function App() {
   return (
     <div>
@@ -23,6 +24,8 @@ function App() {
         <Route path="/deals/*" element={<Deals />} />
         <Route path="/sector-overview" element={<SectorsOuter />} />
         <Route path="/sector/*" element={<SectorsInner />} />
+        <Route path="/stock" element={<StockDetails />} />
+
       
       </Routes>
     </div>
