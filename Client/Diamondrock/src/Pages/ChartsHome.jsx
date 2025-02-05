@@ -389,12 +389,13 @@ const ChartsHome = () => {
         </div>
       </div>
       {/* Stock gainers and loosers section*/ }
-      <div className="max-w-6xl mx-auto p-6" style={{ backgroundColor: "white", width: "100vw"}}>
-      <div className="flex">
-        <StockList title="Stock gainers" stocks={gainers} isGainers={true} />
-        <StockList title="Stock losers" stocks={losers} isGainers={false} />
-      </div>
-    </div>
+      {/* Stock gainers and losers section */}
+<div className="w-full p-6 bg-white">
+  <div className="flex flex-col md:flex-row gap-6">
+    <StockList title="Stock gainers" stocks={gainers} isGainers={true} />
+    <StockList title="Stock losers" stocks={losers} isGainers={false} />
+  </div>
+</div>
       {/* Calender section*/ }
       <div className="p-8 bg-white">
       <h2 className="text-2xl font-bold mb-6">Earnings Calendar</h2>
@@ -553,12 +554,13 @@ const ChartsHome = () => {
         </div>
       
         {/* world biggest companies world largest employers*/ }
-        <div className="max-w-6xl my-12 mx-auto p-6" style={{ backgroundColor: "white", width: "100vw"}}>
-      <div className="flex">
-        <StockList title="Stock gainers" stocks={gainers} isGainers={true} />
-        <StockList title="Stock losers" stocks={losers} isGainers={false} />
-      </div>
-    </div>
+       {/* Stock gainers and losers section */}
+<div className="w-full p-6 bg-white">
+  <div className="flex flex-col md:flex-row gap-6">
+  <StockList title="World's Biggest Companies" stocks={gainers} isGainers={true} />
+        <StockList title="World's Top Employers" stocks={losers} isGainers={false} />
+  </div>
+</div>
         
     
       {/* Calender section world stocks*/ }
