@@ -9,6 +9,7 @@ import Deals from './Pages/Deals/Deals';
 import SectorsOuter from './Pages/Sectors/SectorsOuter';
 import SectorsInner from "./Pages/Sectors/SectorsInner"
 import StockDetails from './Pages/searchIndustries/StockDetails';
+import Delivery from './Pages/searchIndustries/delivery';
 function App() {
   return (
     <div>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/sector-overview" element={<SectorsOuter />} />
         <Route path="/sector/*" element={<SectorsInner />} />
         <Route path="/stock" element={<StockDetails />} />
+        <Route path="/delivery" element={<Delivery />} />
         <Route path="*" element={<div>Error 404</div>} />
       </Routes>
     </div>

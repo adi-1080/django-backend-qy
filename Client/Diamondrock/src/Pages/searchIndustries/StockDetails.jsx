@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Star, Share2, Info, Search, ChevronUp, Layout } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Navbar } from '../../components/Navbar';
+import { Sidebar } from '../../components/Sidebar';
 
 const StockDetails = () => {
   const [activeTab, setActiveTab] = useState('prices');
   const [timeframe, setTimeframe] = useState('1D');
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const tabs = [
     { id: 'prices', label: 'Prices' },
@@ -26,6 +29,20 @@ const StockDetails = () => {
   }));
 
   return (
+    <div className="min-h-screen bg-gray-100">
+          <Navbar />
+          <div className="flex pt-12">
+            <Sidebar
+              isExpanded={isSidebarExpanded}
+              onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
+            />
+            <main
+              className={`flex-1 p-4 transition-all duration-300 ${
+                isSidebarExpanded ? "ml-[calc(3rem+16rem)]" : "ml-[4.5rem]"
+              } max-w-[calc(100vw-${
+                isSidebarExpanded ? "calc(3rem+16rem)" : "4.5rem"
+              })] overflow-x-hidden`}
+            >
     <div className="min-h-screen bg-gray-50">
 
       <div className="bg-white border-b">
@@ -229,6 +246,9 @@ const StockDetails = () => {
         <button className="px-4 py-1 bg-green-500 text-white text-sm rounded">Buy</button>
         <button className="px-4 py-1 bg-red-500 text-white text-sm rounded">Sell</button>
       </div>
+    </div>
+    </main>
+    </div>
     </div>
   );
 };
