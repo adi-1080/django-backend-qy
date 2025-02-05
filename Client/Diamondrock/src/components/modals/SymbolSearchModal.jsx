@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 
 const SymbolSearchModal = ({ closeModal }) => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
 
@@ -12,14 +14,37 @@ const SymbolSearchModal = ({ closeModal }) => {
   ];
 
   const symbols = [
-    { icon: "🌐", name: "RELIANCE", description: "RELIANCE INDUSTRIES LTD", market: "NSE", type: "stock" },
-    { icon: "🌐", name: "RELIANCE", description: "RELIANCE INDUSTRIES LTD.", market: "BSE", type: "stock" },
-    { icon: "🔋", name: "RPOWER", description: "RELIANCE POWER LTD.", market: "NSE", type: "index" },
-    { icon: "🏗️", name: "RELINFRA", description: "RELIANCE INFRASTRUCTURE LTD", market: "NSE", type: "stock" },
-    { icon: "🏦", name: "RELI", description: "RELIANCE GLOBAL GROUP, INC.", market: "NASDAQ", type: "stock" },
-    { icon: "🏦", name: "RELIW", description: "RELIANCE GLOBAL GROUP, INC. - SERIES A", market: "NASDAQ", type: "index" },
-    // Add more sample data...
-  ];
+    { "icon": "🌐", "name": "TRENT.NS", "description": "Trent Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "BHARTIARTL.NS", "description": "Bharti Airtel Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "NTPC.NS", "description": "NTPC Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "MARUTI.NS", "description": "Maruti Suzuki India Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "BAJAJ-AUTO.NS", "description": "Bajaj Auto Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "WIPRO.NS", "description": "Wipro Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "HDFCLIFE.NS", "description": "HDFC Life Insurance Company Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "TCS.NS", "description": "Tata Consultancy Services Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "BAJFINANCE.NS", "description": "Bajaj Finance Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "RELIANCE.NS", "description": "Reliance Industries Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "ULTRACEMCO.NS", "description": "UltraTech Cement Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "TATASTEEL.NS", "description": "Tata Steel Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "HEROMOTOCO.NS", "description": "Hero MotoCorp Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "CIPLA.NS", "description": "Cipla Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "KOTAKBANK.NS", "description": "Kotak Mahindra Bank Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "BAJAJFINSV.NS", "description": "Bajaj Finserv Ltd.", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "SHRIRAMFIN.NS", "description": "Shriram Finance Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "ADANIENT.NS", "description": "Adani Enterprises Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "INDUSINDBK.NS", "description": "IndusInd Bank Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "ITC.NS", "description": "ITC Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "LT.NS", "description": "Larsen & Toubro Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "COALINDIA.NS", "description": "Coal India Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "TATACONSUM.NS", "description": "Tata Consumer Products Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "BRITANNIA.NS", "description": "Britannia Industries Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "NESTLEIND.NS", "description": "Nestlé India Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "APOLLOHOSP.NS", "description": "Apollo Hospitals Enterprise Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "HINDALCO.NS", "description": "Hindalco Industries Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "TITAN.NS", "description": "Titan Company Limited", "market": "NSE", "type": "stock" },
+    { "icon": "🌐", "name": "ONGC.NS", "description": "Oil and Natural Gas Corporation Limited", "market": "NSE", "type": "stock" }
+]
+
 
   const filteredSymbols = symbols.filter(
     (symbol) =>
@@ -74,7 +99,11 @@ const SymbolSearchModal = ({ closeModal }) => {
           {filteredSymbols.map((symbol, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-3 hover:bg-gray-100 border-b"
+              onClick={() => {
+                navigate(`/innerChart/${symbol.name}`);
+                closeModal();
+              }}
+              className="flex items-center justify-between p-3 hover:bg-gray-100 border-b cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <span className="text-lg">{symbol.icon}</span>

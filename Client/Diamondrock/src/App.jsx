@@ -13,10 +13,9 @@ function App() {
   return (
     <div>
       <Routes>
-        
         <Route path="/" element={<Navigate to='/home'/>} />
         <Route path="/home" element={<Home />} />
-        <Route path="/innerChart" element={<SuperChartsInnerPage />} />
+        <Route path="/innerChart/:ticker" element={<SuperChartsInnerPage />} />
         <Route path="/chartHome" element={<ChartsHome />} />
         <Route path="/marketHome" element={<MarketHome />} />
         <Route path="/indices" element={<IndicesPage />} />
@@ -25,8 +24,7 @@ function App() {
         <Route path="/sector-overview" element={<SectorsOuter />} />
         <Route path="/sector/*" element={<SectorsInner />} />
         <Route path="/stock" element={<StockDetails />} />
-
-      
+        <Route path="*" element={<div>Error 404</div>} />
       </Routes>
     </div>
   );

@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import IndividualCompanyMap from '../components/IndividualCompanyMap';
 import WatchlistPanel from '../components/WatchlistPanel';
 import SymbolSearchModal from '../components/modals/SymbolSearchModal';
 import AlertModal from '../components/modals/AlertModal';
-import { Menu, Search, Grid, Bell, Undo, RotateCcw, Save, Eye, CirclePlus, Plus, MoreHorizontal, Maximize2, Camera } from 'lucide-react';
+import { useDispatch } from "react-redux";
+import { setTicker} from "../redux/slice/innerChartApiSlice";
+import { Menu, Search, Bell, Save, Eye, CirclePlus, Plus, Maximize2, Camera } from 'lucide-react';
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
 import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2, Rewind, ChevronDown, ChevronUp } from 'lucide-react';
-import { AlarmClockPlus, SearchCode, Hexagon, LayoutGrid, ChartNoAxesCombined, ChartCandlestick, X } from 'lucide-react';
+import { AlarmClockPlus, SearchCode, Hexagon, LayoutGrid, ChartNoAxesCombined, ChartCandlestick } from 'lucide-react';
 import '../superchartsFonts.css';
 
 function SuperChartsInnerPage() {
+  const { ticker } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isWatchlistPanelOpen, setIsWatchlistPanelOpen] = useState(false);
   const [isChartExpanded, setIsChartExpanded] = useState(false); // State to track fullscreen mode 
   const [isOpen, setIsOpen] = useState(false);
@@ -21,8 +26,13 @@ function SuperChartsInnerPage() {
   const [filter, setFilter] = useState("Stocks");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isSymbolModalOpen, setIsSymbolModalOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleScreener = () => setShowScreener(!showScreener);
+
+  useEffect(() => {
+    dispatch(setTicker(ticker));
+  }, [ticker]);
 
  
   const stockData = {
@@ -123,7 +133,7 @@ function SuperChartsInnerPage() {
             onClick={() => setIsSymbolModalOpen(true)}
           >
             <Search size={16} />
-            RELIANCE
+            {ticker.split(".")[0]}
           </button>
           {isSymbolModalOpen && <SymbolSearchModal closeModal={()=>setIsSymbolModalOpen(false)}/>}
           <button className="hover:bg-gray-100 p-2 text-gray-700">
@@ -139,6 +149,7 @@ function SuperChartsInnerPage() {
           {/* Dropdown Menu */}
           {isOpen && (
             <div 
+            ref={dropdownRef}
             className="absolute w-56 z-[1000] top-2 left-44 bg-white border border-gray-200 rounded-md shadow-lg"
             >
               {intervalOptions.map((group, index) => (

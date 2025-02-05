@@ -1,15 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createChart } from 'lightweight-charts';
-import { candleStickData } from '../../dummy_data/CandleStickData';
+import { fetchInnerChartApiData } from '../../redux/slice/innerChartApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const CandleStickStockChart = (props) => {
+  const dispatch = useDispatch();
+  const candleStickData = useSelector(state => state.innerChartApiData.data) || [];
+  const ticker = useSelector(state => state.innerChartApiData.ticker);
   const chartContainerRef = useRef(null);
-  const [hoveredPrice, setHoveredPrice] = useState(null);
-  const [hoveredVolume, setHoveredVolume] = useState(null);
+
+  useEffect(() => {
+    dispatch(fetchInnerChartApiData());
+  }, [ticker]);
 
   // Calculate visible range based on selectedPeriod
   const calculateVisibleRange = (period) => {
-    const now = Date.parse("2019-05-24") / 1000; // Current time in seconds
+    const now = Date.parse(candleStickData[candleStickData.length - 1].Date.split(' ')[0]) / 1000; // Current time in seconds
     let startTime;
 
     switch (period) {
@@ -29,7 +35,8 @@ const CandleStickStockChart = (props) => {
         startTime = now - 180 * 24 * 60 * 60;
         break;
       case 'YTD': // Year to date
-        startTime = Date.parse("2019-01-01") / 1000;
+        const currentYear = new Date().getFullYear();
+        startTime = Date.parse(`${currentYear}-01-01`) / 1000;
         break;
       case '1Y': // Last 1 year
         startTime = now - 365 * 24 * 60 * 60;
@@ -38,7 +45,7 @@ const CandleStickStockChart = (props) => {
         startTime = now - 5 * 365 * 24 * 60 * 60;
         break;
       default: // Show all data
-        startTime = Date.parse("2018-10-19") / 1000;
+        startTime = Date.parse("1996-01-01") / 1000;
         break;
     }
 
@@ -46,7 +53,7 @@ const CandleStickStockChart = (props) => {
   };
 
   useEffect(() => {
-    if (!chartContainerRef.current) return;
+    if (!chartContainerRef.current || !candleStickData.length) return;
 
     const chartOptions = {
       layout: {
@@ -97,7 +104,16 @@ const CandleStickStockChart = (props) => {
       },
     });
 
-    candlestickSeries.setData(candleStickData);
+    const formattedData = candleStickData.map(item => ({
+      time: item.Date.split(' ')[0],
+      open: item.Open,
+      high: item.High,
+      low: item.Low,
+      close: item.Close,
+      volume: item.Volume,
+    }));
+
+    candlestickSeries.setData(formattedData);
 
     // Add volume series
     const volumeSeries = chart.addHistogramSeries({
@@ -113,9 +129,9 @@ const CandleStickStockChart = (props) => {
     },
     });
     
-    const volumeData = candleStickData.map(item => ({
+    const volumeData = formattedData.map(item => ({
       time: item.time,
-      value: (item.high-item.low) * 100000000,
+      value: item.volume,
       color: item.close > item.open ? '#92d2cc' : '#f7a9a7'
     }));
 
@@ -133,13 +149,18 @@ const CandleStickStockChart = (props) => {
     // Add price and volume tooltips
     chart.subscribeCrosshairMove(param => {
       if (param.time) {
-        const data = candleStickData.find(d => d.time === param.time);
+        const data = formattedData.find(d => d.time === param.time);
         if (data) {
-          setHoveredPrice(`₹${data.close.toFixed(2)}`);
-          
+          props.setDisplayedPrice(()=>{
+            const newPrice = data.close.toFixed(2);
+            const priceChange = (newPrice - data.open).toFixed(2);
+            const priceChangePercentage = ((priceChange / data.open) * 100).toFixed(2);
+            props.setDisplayedPriceChange(priceChange);
+            props.setDisplayedPriceChangePercentage(priceChangePercentage);
+            return(newPrice);
+          });
           const volume = volumeData.find(d => d.time === param.time);
           if (volume) {
-            setHoveredVolume(`${(volume.value / 1000000).toFixed(2)}M`);
             props.setDisplayedVolume(`${(volume.value / 1000000).toFixed(2)}`)
           }
         }
@@ -164,19 +185,11 @@ const CandleStickStockChart = (props) => {
       chart.remove();
       window.removeEventListener('resize', handleResize);
     };
-  }, [props.selectedPeriod, props.isWatchlistPanelOpen, props.isChartExpanded]);
+  }, [candleStickData, props.selectedPeriod, props.isWatchlistPanelOpen, props.isChartExpanded]);
 
   return (
     <div className="relative w-full h-full">
       <div ref={chartContainerRef} className="w-full h-full" />
-      {hoveredPrice && (
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-md shadow-sm border border-gray-200">
-          <div className="text-sm font-medium">{hoveredPrice}</div>
-          {hoveredVolume && (
-            <div className="text-xs text-gray-500">Vol: {hoveredVolume}</div>
-          )}
-        </div>
-      )}
     </div>
   );
 };

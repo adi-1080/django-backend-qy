@@ -1,9 +1,12 @@
 import React, { useState, useEffect} from 'react';
-import { TrendingUp, ChevronUp } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import StockChart from './charts/CandeStickStockChart';
 
 function IndividualCompanyMap(props) {
-  const [displayedVolume, setDisplayedVolume] = useState('243.81');
+  const [displayedVolume, setDisplayedVolume] = useState('10.11');
+  const [displayedPrice, setDisplayedPrice] = useState('1,246.30');
+  const [displayedPriceChange, setDisplayedPriceChange] = useState('30.85');
+  const [displayedPriceChangePercentage, setDisplayedPriceChangePercentage] = useState('2.54');
   const [time, setTime] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
   const periods = ['1D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'];
@@ -40,9 +43,12 @@ function IndividualCompanyMap(props) {
             {/* Price Info */}
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-emerald-600">
-                <ChevronUp className="h-5 w-5" />
-                <span className="text-sm font-medium">₹1,246.30</span>
-                <span className="text-sm font-medium">+30.85 (+2.54%)</span>
+                <span className="text-sm font-medium">₹{displayedPrice}</span>
+                <span className="text-sm font-medium"
+                  style={{ color: displayedPriceChange > 0 ? '#10B981' : '#EF4444' }}
+                >
+                  {displayedPriceChange>0?'+':''}{displayedPriceChange} ({displayedPriceChange>0?'+':''}{displayedPriceChangePercentage}%)
+                </span>
               </div>
             </div>
           </div>
@@ -73,7 +79,9 @@ function IndividualCompanyMap(props) {
           
         {/* Chart Component */}
         <div className="flex-1 pt-2 px-1" style={{ paddingBottom: 0 }}>
-          <StockChart selectedPeriod={selectedPeriod} setDisplayedVolume={setDisplayedVolume} isWatchlistPanelOpen={props.isWatchlistPanelOpen} isChartExpanded={props.isChartExpanded}/>
+          <StockChart selectedPeriod={selectedPeriod} setDisplayedVolume={setDisplayedVolume} setDisplayedPrice={setDisplayedPrice}
+          setDisplayedPriceChange={setDisplayedPriceChange} setDisplayedPriceChangePercentage={setDisplayedPriceChangePercentage}
+          isWatchlistPanelOpen={props.isWatchlistPanelOpen} isChartExpanded={props.isChartExpanded}/>
         </div>
 
         {/* Time Period Selector */}
