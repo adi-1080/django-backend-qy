@@ -6,12 +6,44 @@ import WatchlistPanel from '../components/WatchlistPanel';
 import SymbolSearchModal from '../components/modals/SymbolSearchModal';
 import AlertModal from '../components/modals/AlertModal';
 import { useDispatch } from "react-redux";
-import { setTicker} from "../redux/slice/innerChartApiSlice";
+import { setTicker, setTickerDetails} from "../redux/slice/innerChartApiSlice";
 import { Menu, Search, Bell, Save, Eye, CirclePlus, Plus, Maximize2, Camera } from 'lucide-react';
 import { Move, LineChart, BarChart3, Network, Settings, Edit, SmilePlus, Ruler, Magnet, Pencil, Lock, Trash } from 'lucide-react';
 import { SquareMenu, Clock, Layers, MessageSquare, Target, Calendar, Users2, HelpCircle, Minimize2, Rewind, ChevronDown, ChevronUp } from 'lucide-react';
 import { AlarmClockPlus, SearchCode, Hexagon, LayoutGrid, ChartNoAxesCombined, ChartCandlestick } from 'lucide-react';
 import '../superchartsFonts.css';
+
+const symbols = [
+  { "icon": "🌐", "name": "TRENT.NS", "description": "Trent Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "BHARTIARTL.NS", "description": "Bharti Airtel Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "NTPC.NS", "description": "NTPC Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "MARUTI.NS", "description": "Maruti Suzuki India Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "BAJAJ-AUTO.NS", "description": "Bajaj Auto Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "WIPRO.NS", "description": "Wipro Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "HDFCLIFE.NS", "description": "HDFC Life Insurance Company Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "TCS.NS", "description": "Tata Consultancy Services Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "BAJFINANCE.NS", "description": "Bajaj Finance Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "RELIANCE.NS", "description": "Reliance Industries Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "ULTRACEMCO.NS", "description": "UltraTech Cement Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "TATASTEEL.NS", "description": "Tata Steel Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "HEROMOTOCO.NS", "description": "Hero MotoCorp Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "CIPLA.NS", "description": "Cipla Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "KOTAKBANK.NS", "description": "Kotak Mahindra Bank Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "BAJAJFINSV.NS", "description": "Bajaj Finserv Ltd.", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "SHRIRAMFIN.NS", "description": "Shriram Finance Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "ADANIENT.NS", "description": "Adani Enterprises Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "INDUSINDBK.NS", "description": "IndusInd Bank Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "ITC.NS", "description": "ITC Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "LT.NS", "description": "Larsen & Toubro Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "COALINDIA.NS", "description": "Coal India Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "TATACONSUM.NS", "description": "Tata Consumer Products Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "BRITANNIA.NS", "description": "Britannia Industries Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "NESTLEIND.NS", "description": "Nestlé India Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "APOLLOHOSP.NS", "description": "Apollo Hospitals Enterprise Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "HINDALCO.NS", "description": "Hindalco Industries Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "TITAN.NS", "description": "Titan Company Limited", "market": "NSE", "type": "stock" },
+  { "icon": "🌐", "name": "ONGC.NS", "description": "Oil and Natural Gas Corporation Limited", "market": "NSE", "type": "stock" }
+];
 
 function SuperChartsInnerPage() {
   const { ticker } = useParams();
@@ -31,7 +63,12 @@ function SuperChartsInnerPage() {
   const toggleScreener = () => setShowScreener(!showScreener);
 
   useEffect(() => {
+    const currentSymbol = symbols.find((symbol) => symbol.name === ticker);
     dispatch(setTicker(ticker));
+    dispatch(setTickerDetails({
+      companyName: currentSymbol.description,
+      market: currentSymbol.market
+    }));
   }, [ticker]);
 
  

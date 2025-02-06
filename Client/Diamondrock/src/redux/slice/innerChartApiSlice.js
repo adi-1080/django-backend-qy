@@ -12,12 +12,19 @@ const innerChartApiSlice = createSlice({
     initialState: {
         isLoading: false,
         ticker: 'RELIANCE.NS',
+        tickerDetails: {
+            companyName: 'Reliance Industries Limited',
+            market: 'NSE'
+        },
         data: null,
         isError: false
     },
     reducers: {
         setTicker: (state, action) => {
             state.ticker = action.payload;
+        },
+        setTickerDetails: (state, action) => {
+            state.tickerDetails = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -36,6 +43,6 @@ const innerChartApiSlice = createSlice({
     }
 });
 
-export const { setTicker } = innerChartApiSlice.actions;
+export const { setTicker, setTickerDetails } = innerChartApiSlice.actions;
 
 export default innerChartApiSlice.reducer;
