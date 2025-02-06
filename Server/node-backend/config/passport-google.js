@@ -10,7 +10,7 @@ const configureGoogleStrategy = (passport) => {
         new GoogleStrategy({
             clientID: process.env.GOOGLE_CLIENTID,
             clientSecret: process.env.GOOGLE_CLIENTSECRET,
-            callbackURL: 'https://node-backend-quickyearning.onrender.com/auth/google/callback',
+            callbackURL: process.env.OAUTH_CALLBACK_URL,
         }, async(accessToken, refreshToken, profile, done) => {
             try{
                 const email = profile.emails[0].value;
