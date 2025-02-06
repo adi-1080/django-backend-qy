@@ -1,8 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import { TrendingUp } from 'lucide-react';
 import StockChart from './charts/CandeStickStockChart';
+import { useSelector } from 'react-redux';
 
 function IndividualCompanyMap(props) {
+  const tickerDetails = useSelector((state) => state.innerChartApiData.tickerDetails);
   const [displayedVolume, setDisplayedVolume] = useState('10.11');
   const [displayedPrice, setDisplayedPrice] = useState('1,246.30');
   const [displayedPriceChange, setDisplayedPriceChange] = useState('30.85');
@@ -10,6 +12,7 @@ function IndividualCompanyMap(props) {
   const [time, setTime] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
   const periods = ['1D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'];
+
   useEffect(() => {
     // Function to format time as HH:MM:SS UTC
     const updateTime = () => {
@@ -36,7 +39,7 @@ function IndividualCompanyMap(props) {
             <div className="flex items-center gap-2">
               <TrendingUp className="h-6 w-6 text-blue-600" />
               <h1 className="text-md font-bold">
-                RELIANCE INDUSTRIES LTD • 1M • NSE
+                {tickerDetails.companyName} • {tickerDetails.market}
               </h1>
             </div>
 
