@@ -4,3 +4,4 @@ djangorestframework==3.14.0
 django-cors-headers==3.13.0 
 yfinance==0.2.51 
 python-decouple==3.8
+yahooquery==2.3.7
