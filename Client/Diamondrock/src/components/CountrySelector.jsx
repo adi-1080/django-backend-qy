@@ -25,6 +25,7 @@ const CountrySelector = () => {
       { name: "Canada", flag: "🇨🇦", exchanges: ["TSX"] },
       { name: "Australia", flag: "🇦🇺", exchanges: ["ASX"] },
       { name: "Brazil", flag: "🇧🇷", exchanges: ["B3"] },
+      {}
     ];
   
     const filteredCountries = countries.filter(country =>
